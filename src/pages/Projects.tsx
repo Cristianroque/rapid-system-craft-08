@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, Github, ExternalLink } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -42,12 +42,12 @@ const Projects = () => {
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 px-4">
               Nossos <span className="text-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Projetos</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed">
-              Descubra as soluções digitais que desenvolvemos para nossos clientes, transformando ideias em sistemas funcionais e modernos
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
+              Descubra as soluções que desenvolvemos para nossos clientes
             </p>
           </div>
 
-          {/* Filtros */}
+          {/* Filtros aprimorados */}
           <div 
             ref={filtersRef}
             className={`bg-card rounded-2xl p-4 md:p-6 mb-8 md:mb-12 shadow-lg border max-w-4xl mx-auto transition-all duration-1000 delay-300 ${
@@ -83,6 +83,7 @@ const Projects = () => {
               </div>
             </div>
             
+            {/* Contador de resultados */}
             <div className="mt-4 text-center">
               <span className="text-muted-foreground text-sm md:text-base">
                 {filteredProjects.length} projeto{filteredProjects.length !== 1 ? 's' : ''} encontrado{filteredProjects.length !== 1 ? 's' : ''}
@@ -98,74 +99,49 @@ const Projects = () => {
             }`}
           >
             {filteredProjects.length > 0 ? (
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
                 {filteredProjects.map((project, index) => (
                   <Card 
                     key={project.id}
                     className="group hover:scale-105 transition-all duration-300 hover:shadow-xl overflow-hidden border-0 bg-card animate-fade-in"
                     style={{ animationDelay: `${800 + index * 100}ms` }}
                   >
-                    <div className="relative overflow-hidden">
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="w-full h-48 md:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <Badge className="absolute top-4 left-4 gradient-primary text-white font-medium px-3 py-1">
-                        {project.category}
-                      </Badge>
-                    </div>
-                    
-                    <CardContent className="p-4 md:p-6 flex flex-col h-full">
-                      <h3 className="text-lg md:text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-4 line-clamp-4 leading-relaxed text-sm md:text-base flex-grow">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.slice(0, 3).map((tech, techIndex) => (
-                          <Badge key={techIndex} variant="secondary" className="text-xs md:text-sm font-medium">
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.tech.length > 3 && (
-                          <Badge variant="secondary" className="text-xs md:text-sm font-medium">
-                            +{project.tech.length - 3}
-                          </Badge>
-                        )}
+                    <Link to={`/projetos/${project.id}`} className="block h-full">
+                      <div className="relative overflow-hidden">
+                        <img 
+                          src={project.image} 
+                          alt={project.title}
+                          className="w-full h-48 md:h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <Badge className="absolute top-4 left-4 gradient-primary text-white font-medium px-3 py-1">
+                          {project.category}
+                        </Badge>
                       </div>
                       
-                      <div className="flex gap-2 mt-auto">
-                        <div className="flex-1">
-                          <Link to={`/projetos/${project.id}`}>
-                            <Button className="w-full gradient-primary text-white py-2 md:py-3 text-sm md:text-base hover:scale-105 transition-all duration-300">
-                              Ver Projeto
-                            </Button>
-                          </Link>
-                        </div>
-                        <div className="flex gap-2">
-                          <a 
-                            href={project.repository} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center w-10 h-10 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-                          >
-                            <Github className="w-4 h-4" />
-                          </a>
-                          {project.liveDemo && (
-                            <a 
-                              href={project.liveDemo} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center justify-center w-10 h-10 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                            </a>
+                      <CardContent className="p-4 md:p-6 flex flex-col h-full">
+                        <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                          {project.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-3 md:mb-4 line-clamp-3 leading-relaxed text-sm md:text-base flex-grow">
+                          {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
+                          {project.tech.slice(0, 3).map((tech, techIndex) => (
+                            <Badge key={techIndex} variant="secondary" className="text-xs md:text-sm font-medium">
+                              {tech}
+                            </Badge>
+                          ))}
+                          {project.tech.length > 3 && (
+                            <Badge variant="secondary" className="text-xs md:text-sm font-medium">
+                              +{project.tech.length - 3}
+                            </Badge>
                           )}
                         </div>
-                      </div>
-                    </CardContent>
+                        <Button className="w-full gradient-primary text-white py-2 md:py-3 text-sm md:text-lg hover:scale-105 transition-all duration-300 mt-auto">
+                          Ver Projeto
+                        </Button>
+                      </CardContent>
+                    </Link>
                   </Card>
                 ))}
               </div>

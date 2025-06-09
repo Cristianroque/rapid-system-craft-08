@@ -19,7 +19,7 @@ export const projects: Project[] = [
   {
     id: "ecommerce-platform",
     title: "Plataforma de gestão para e-commerce",
-    description: "Sistema completo desenvolvido para uma empresa do setor varejista que precisava modernizar sua operação digital. A plataforma integra controle de estoque em tempo real, processamento automatizado de pedidos, gestão completa de clientes e dashboard com analytics avançados. O sistema foi arquitetado para suportar alto volume de transações simultâneas e escalar conforme o crescimento do negócio, resultando em 45% de aumento na eficiência operacional e 60% de redução no tempo de processamento de pedidos.",
+    description: "Sistema personalizado para controle de estoque, vendas e logística em tempo real.",
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop",
     tech: ["Next.js", "Node.js", "PostgreSQL", "Stripe", "AWS"],
     category: "E-commerce",
@@ -52,7 +52,7 @@ export const projects: Project[] = [
   {
     id: "health-startup-website",
     title: "Site institucional para startup de saúde",
-    description: "Projeto desenvolvido para uma startup inovadora do setor de saúde digital, focando em conversão e experiência do usuário. O site inclui design responsivo otimizado para mobile, sistema de blog integrado com CMS para compartilhamento de conteúdo especializado, SEO avançado para melhor posicionamento nos buscadores e integração completa com ferramentas de marketing digital. O resultado foi um aumento impressionante de 120% no tráfego orgânico, 85% de melhoria na taxa de conversão e 40% de redução na taxa de rejeição.",
+    description: "Design e desenvolvimento de site responsivo com SEO avançado e blog integrado.",
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop",
     tech: ["React", "TailwindCSS", "Strapi CMS", "SEO", "Analytics"],
     category: "Website",
@@ -85,7 +85,7 @@ export const projects: Project[] = [
   {
     id: "financial-control-app",
     title: "Aplicativo web para controle financeiro empresarial",
-    description: "Solução web robusta desenvolvida para gestão financeira empresarial, com foco em segurança bancária e facilidade de uso para usuários não técnicos. O sistema oferece dashboard financeiro interativo com visualizações em tempo real, relatórios personalizáveis em PDF para apresentações executivas, controle completo de contas a pagar e receber, previsões de fluxo de caixa baseadas em algoritmos inteligentes e integração segura com bancos via API. A implementação resultou em 50% de redução no tempo de fechamento mensal, 70% de melhoria na precisão das previsões financeiras e automatização de 80% dos processos manuais.",
+    description: "Solução web segura e rápida para gestão de fluxo de caixa e relatórios financeiros.",
     image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop",
     tech: ["Vue.js", "Laravel", "MySQL", "Charts.js", "Security"],
     category: "FinTech",
