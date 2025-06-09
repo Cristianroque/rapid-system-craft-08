@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Message, MessageResponse } from '@/types/database';
+import { toast } from 'sonner';
 
 export const useMessages = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -49,9 +50,12 @@ export const useMessages = () => {
       if (error) throw error;
       const newMessage: Message = { ...data, status: data.status as Message['status'], responses: [] };
       setMessages(prev => [newMessage, ...prev]);
+      toast.success('Mensagem enviada com sucesso!');
       return newMessage;
     } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'Erro ao criar mensagem');
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao criar mensagem';
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
@@ -70,7 +74,9 @@ export const useMessages = () => {
         msg.id === id ? { ...msg, status } : msg
       ));
     } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'Erro ao atualizar status da mensagem');
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao atualizar status da mensagem';
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
@@ -116,12 +122,14 @@ export const useMessages = () => {
 
         if (emailResponse.error) {
           console.error('Erro ao enviar e-mail:', emailResponse.error);
+          toast.warning('Resposta salva, mas houve problema no envio do e-mail');
         } else {
           console.log('E-mail enviado com sucesso');
+          toast.success('Resposta enviada e e-mail entregue com sucesso!');
         }
       } catch (emailError) {
         console.error('Erro no envio do e-mail:', emailError);
-        // Não falhar a operação inteira se o e-mail falhar
+        toast.warning('Resposta salva, mas houve problema no envio do e-mail');
       }
 
       // Atualizar a lista de mensagens localmente
@@ -142,7 +150,9 @@ export const useMessages = () => {
 
       return typedResponse;
     } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'Erro ao adicionar resposta');
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao adicionar resposta';
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
@@ -155,8 +165,11 @@ export const useMessages = () => {
 
       if (error) throw error;
       setMessages(prev => prev.filter(m => m.id !== id));
+      toast.success('Mensagem excluída com sucesso');
     } catch (err) {
-      throw new Error(err instanceof Error ? err.message : 'Erro ao excluir mensagem');
+      const errorMessage = err instanceof Error ? err.message : 'Erro ao excluir mensagem';
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
