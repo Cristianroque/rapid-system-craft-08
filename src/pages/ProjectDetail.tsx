@@ -11,24 +11,29 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 const ProjectDetail = () => {
   const { id } = useParams();
   const { projects, loading, error } = useProjects();
-  const project = projects.find(p => p.id === id);
   const [titleRef, titleVisible] = useScrollAnimation();
   const [imageRef, imageVisible] = useScrollAnimation();
   const [contentRef, contentVisible] = useScrollAnimation();
 
-  console.log('ProjectDetail - ID:', id);
-  console.log('ProjectDetail - Projects:', projects);
-  console.log('ProjectDetail - Found project:', project);
+  console.log('ProjectDetail - ID from URL:', id);
+  console.log('ProjectDetail - All projects:', projects);
   console.log('ProjectDetail - Loading:', loading);
   console.log('ProjectDetail - Error:', error);
 
+  // Encontrar o projeto pelo ID (convertendo para string se necessário)
+  const project = projects.find(p => String(p.id) === String(id));
+  
+  console.log('ProjectDetail - Found project:', project);
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center pt-24 px-4">
-          <Loader2 className="w-8 h-8 animate-spin" />
-          <span className="ml-2">Carregando projeto...</span>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="flex items-center">
+            <Loader2 className="w-8 h-8 animate-spin mr-2" />
+            <span>Carregando projeto...</span>
+          </div>
         </div>
       </div>
     );
@@ -36,17 +41,19 @@ const ProjectDetail = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen bg-background">
         <Header />
-        <div className="text-center pt-24 px-4">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">Erro ao carregar projeto</h1>
-          <p className="text-muted-foreground mb-4">{error}</p>
-          <Link to="/projetos">
-            <Button className="gradient-primary text-white">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar aos Projetos
-            </Button>
-          </Link>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center px-4">
+            <h1 className="text-2xl md:text-3xl font-bold mb-4">Erro ao carregar projeto</h1>
+            <p className="text-muted-foreground mb-4">{error}</p>
+            <Link to="/projetos">
+              <Button className="gradient-primary text-white">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Voltar aos Projetos
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -54,17 +61,29 @@ const ProjectDetail = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen bg-background">
         <Header />
-        <div className="text-center pt-24 px-4">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">Projeto não encontrado</h1>
-          <p className="text-muted-foreground mb-4">O projeto solicitado não existe ou foi removido.</p>
-          <Link to="/projetos">
-            <Button className="gradient-primary text-white">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar aos Projetos
-            </Button>
-          </Link>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center px-4">
+            <h1 className="text-2xl md:text-3xl font-bold mb-4">Projeto não encontrado</h1>
+            <p className="text-muted-foreground mb-4">
+              O projeto com ID "{id}" não foi encontrado. Talvez ele tenha sido removido ou o link está incorreto.
+            </p>
+            <div className="space-y-2 mb-4">
+              <p className="text-sm text-muted-foreground">Debug info:</p>
+              <p className="text-xs text-muted-foreground">ID buscado: {id}</p>
+              <p className="text-xs text-muted-foreground">Projetos disponíveis: {projects.length}</p>
+              <p className="text-xs text-muted-foreground">
+                IDs dos projetos: {projects.map(p => p.id).join(', ')}
+              </p>
+            </div>
+            <Link to="/projetos">
+              <Button className="gradient-primary text-white">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Voltar aos Projetos
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -76,6 +95,16 @@ const ProjectDetail = () => {
       
       <section className="pt-24 md:pt-32 pb-16 md:pb-20">
         <div className="container mx-auto px-4 max-w-5xl">
+          {/* Botão Voltar */}
+          <div className="mb-6">
+            <Link to="/projetos">
+              <Button variant="outline" className="mb-4">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Voltar aos Projetos
+              </Button>
+            </Link>
+          </div>
+
           {/* Header do Projeto */}
           <div 
             ref={titleRef}
@@ -95,7 +124,7 @@ const ProjectDetail = () => {
             </h1>
             
             <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">
-              {project.full_description}
+              {project.full_description || project.description}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">

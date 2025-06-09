@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Loader2 } from 'lucide-react';
@@ -10,7 +9,6 @@ import { Link } from 'react-router-dom';
 
 const Portfolio = () => {
   const { projects, loading, error } = useProjects();
-  const [filter, setFilter] = useState('all');
 
   // Limitar a apenas 3 projetos na página inicial
   const displayProjects = projects.slice(0, 3);

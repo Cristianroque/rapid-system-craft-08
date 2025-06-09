@@ -103,7 +103,7 @@ const Projects = () => {
           {!loading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-7xl mx-auto">
               {filteredProjects.map((project, index) => (
-                <Link key={project.id} to={`/projetos/${project.id}`}>
+                <Link key={project.id} to={`/projetos/${project.id}`} className="block h-full">
                   <Card 
                     className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full flex flex-col"
                     style={{ animationDelay: `${index * 200}ms` }}
