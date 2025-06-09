@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { Github, ExternalLink } from 'lucide-react';
 
 const Portfolio = () => {
   const [titleRef, titleVisible] = useScrollAnimation();
@@ -15,21 +16,24 @@ const Portfolio = () => {
       title: "Plataforma de gestão para e-commerce",
       description: "Sistema personalizado para controle de estoque, vendas e logística em tempo real.",
       image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop",
-      tech: "Next.js, Node.js, PostgreSQL"
+      tech: ["Next.js", "Node.js", "PostgreSQL"],
+      category: "E-commerce"
     },
     {
       id: "health-startup-site",
       title: "Site institucional para startup de saúde",
       description: "Design e desenvolvimento de site responsivo com SEO avançado e blog integrado.",
       image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop",
-      tech: "React, TailwindCSS, Strapi CMS"
+      tech: ["React", "TailwindCSS", "Strapi CMS"],
+      category: "Institucional"
     },
     {
       id: "financial-control-app",
       title: "Aplicativo web para controle financeiro empresarial",
       description: "Solução web segura e rápida para gestão de fluxo de caixa e relatórios financeiros.",
       image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop",
-      tech: "Vue.js, Laravel, MySQL"
+      tech: ["Vue.js", "Laravel", "MySQL"],
+      category: "Financeiro"
     }
   ];
 
@@ -58,31 +62,43 @@ const Portfolio = () => {
             {projects.map((project, index) => (
               <Link key={index} to={`/projetos/${project.id}`}>
                 <Card 
-                  className="group hover:scale-105 transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full"
+                  className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full"
                   style={{ animationDelay: `${index * 200}ms` }}
                 >
                   <div className="relative overflow-hidden">
                     <img 
                       src={project.image} 
                       alt={project.title}
-                      className="w-full h-44 md:h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-36 md:h-40 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    <Badge className="absolute top-3 left-3 gradient-primary text-white font-medium text-xs">
+                      {project.category}
+                    </Badge>
                     <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                   
-                  <CardContent className="p-4 md:p-6 flex flex-col flex-grow">
-                    <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                  <CardContent className="p-4 md:p-5 flex flex-col flex-grow">
+                    <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                       {project.title}
                     </h3>
-                    <p className="text-muted-foreground mb-3 md:mb-4 leading-relaxed text-sm md:text-base line-clamp-3 flex-grow">
+                    <p className="text-muted-foreground mb-3 leading-relaxed text-sm line-clamp-3 flex-grow">
                       {project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                      {project.tech.split(', ').map((tech, techIndex) => (
+                    
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tech.slice(0, 3).map((tech, techIndex) => (
                         <Badge key={techIndex} variant="secondary" className="text-xs">
                           {tech}
                         </Badge>
                       ))}
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Ver detalhes</span>
+                      <div className="flex gap-1">
+                        <Github className="w-3 h-3" />
+                        <ExternalLink className="w-3 h-3" />
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
