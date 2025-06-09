@@ -6,12 +6,11 @@ import Features from '@/components/Features';
 import Portfolio from '@/components/Portfolio';
 import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
-import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Header />
       <Hero />
       <About />
@@ -19,7 +18,6 @@ const Index = () => {
       <Portfolio />
       <Testimonials />
       <Process />
-      <CTA />
       <Footer />
     </div>
   );
