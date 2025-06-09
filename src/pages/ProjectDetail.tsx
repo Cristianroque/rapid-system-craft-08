@@ -10,11 +10,17 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const { projects, loading } = useProjects();
+  const { projects, loading, error } = useProjects();
   const project = projects.find(p => p.id === id);
   const [titleRef, titleVisible] = useScrollAnimation();
   const [imageRef, imageVisible] = useScrollAnimation();
   const [contentRef, contentVisible] = useScrollAnimation();
+
+  console.log('ProjectDetail - ID:', id);
+  console.log('ProjectDetail - Projects:', projects);
+  console.log('ProjectDetail - Found project:', project);
+  console.log('ProjectDetail - Loading:', loading);
+  console.log('ProjectDetail - Error:', error);
 
   if (loading) {
     return (
@@ -28,12 +34,31 @@ const ProjectDetail = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Header />
+        <div className="text-center pt-24 px-4">
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">Erro ao carregar projeto</h1>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <Link to="/projetos">
+            <Button className="gradient-primary text-white">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar aos Projetos
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Header />
         <div className="text-center pt-24 px-4">
           <h1 className="text-2xl md:text-3xl font-bold mb-4">Projeto não encontrado</h1>
+          <p className="text-muted-foreground mb-4">O projeto solicitado não existe ou foi removido.</p>
           <Link to="/projetos">
             <Button className="gradient-primary text-white">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -115,7 +140,7 @@ const ProjectDetail = () => {
             }`}
           >
             {/* Funcionalidades */}
-            {project.features.length > 0 && (
+            {project.features && project.features.length > 0 && (
               <Card className="animate-fade-in" style={{ animationDelay: '800ms' }}>
                 <CardContent className="p-4 md:p-6">
                   <h3 className="text-lg md:text-xl font-semibold mb-4 text-gradient">Funcionalidades</h3>
@@ -133,7 +158,7 @@ const ProjectDetail = () => {
 
             {/* Desafios e Resultados */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-              {project.challenges.length > 0 && (
+              {project.challenges && project.challenges.length > 0 && (
                 <Card className="animate-fade-in" style={{ animationDelay: '1000ms' }}>
                   <CardContent className="p-4 md:p-6">
                     <h3 className="text-lg md:text-xl font-semibold mb-4 text-gradient">Desafios</h3>
@@ -149,7 +174,7 @@ const ProjectDetail = () => {
                 </Card>
               )}
 
-              {project.results.length > 0 && (
+              {project.results && project.results.length > 0 && (
                 <Card className="animate-fade-in" style={{ animationDelay: '1200ms' }}>
                   <CardContent className="p-4 md:p-6">
                     <h3 className="text-lg md:text-xl font-semibold mb-4 text-gradient">Resultados</h3>
@@ -167,7 +192,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Galeria de Imagens */}
-            {project.images.length > 0 && (
+            {project.images && project.images.length > 0 && (
               <div className="mt-8 md:mt-12">
                 <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6 text-center">
                   Galeria do <span className="text-gradient">Projeto</span>

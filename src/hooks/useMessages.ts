@@ -76,6 +76,16 @@ export const useMessages = () => {
 
   const addMessageResponse = async (messageId: string, responseText: string, responseType: 'custom' | 'quick' = 'custom') => {
     try {
+      // Primeiro, buscar os dados da mensagem original
+      const { data: messageData, error: messageError } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('id', messageId)
+        .single();
+
+      if (messageError) throw messageError;
+
+      // Inserir a resposta
       const { data, error } = await supabase
         .from('message_responses')
         .insert([{
@@ -90,6 +100,29 @@ export const useMessages = () => {
 
       // Atualizar status da mensagem para 'responded'
       await updateMessageStatus(messageId, 'responded');
+
+      // Enviar e-mail automático
+      try {
+        console.log('Enviando e-mail para:', messageData.email);
+        
+        const emailResponse = await supabase.functions.invoke('send-email-response', {
+          body: {
+            to: messageData.email,
+            name: messageData.name,
+            responseText: responseText,
+            originalMessage: messageData.message
+          }
+        });
+
+        if (emailResponse.error) {
+          console.error('Erro ao enviar e-mail:', emailResponse.error);
+        } else {
+          console.log('E-mail enviado com sucesso');
+        }
+      } catch (emailError) {
+        console.error('Erro no envio do e-mail:', emailError);
+        // Não falhar a operação inteira se o e-mail falhar
+      }
 
       // Atualizar a lista de mensagens localmente
       const typedResponse: MessageResponse = {
