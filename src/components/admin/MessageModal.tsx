@@ -20,7 +20,7 @@ interface MessageModalProps {
   isOpen: boolean;
   onClose: () => void;
   message?: any;
-  onSendResponse?: (messageId: number, response: string, type: string) => void;
+  onSendResponse?: (messageId: string, response: string, type: string) => void;
 }
 
 const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModalProps) => {
@@ -33,7 +33,6 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
     onSendResponse?.(message.id, responseText, type);
     setResponseText('');
     setSelectedQuickResponse('');
-    onClose();
   };
 
   const handleQuickResponse = () => {
@@ -82,10 +81,12 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
                     <Mail className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm">{message.email}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm">{message.phone}</span>
-                  </div>
+                  {message.phone && (
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm">{message.phone}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-3">
                   {message.company && (
@@ -96,7 +97,7 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
                   )}
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm">{new Date(message.date).toLocaleDateString('pt-BR')}</span>
+                    <span className="text-sm">{new Date(message.created_at).toLocaleDateString('pt-BR')}</span>
                   </div>
                 </div>
               </div>
@@ -116,10 +117,10 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
                   <div className="space-y-3">
                     {message.responses.map((response: any) => (
                       <div key={response.id} className="p-3 bg-primary/5 rounded-lg border-l-4 border-primary">
-                        <p className="text-sm leading-relaxed">{response.message}</p>
+                        <p className="text-sm leading-relaxed">{response.response_text}</p>
                         <p className="text-xs text-muted-foreground mt-2">
-                          {new Date(response.date).toLocaleDateString('pt-BR')} • 
-                          {response.type === 'quick' ? ' Resposta rápida' : ' Resposta personalizada'}
+                          {new Date(response.created_at).toLocaleDateString('pt-BR')} • 
+                          {response.response_type === 'quick' ? ' Resposta rápida' : ' Resposta personalizada'}
                         </p>
                       </div>
                     ))}

@@ -3,14 +3,17 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Edit, Plus } from 'lucide-react';
-import { projects } from '@/data/projects';
+import { Trash2, Edit, Plus, Loader2 } from 'lucide-react';
+import { useProjects } from '@/hooks/useProjects';
 import ProjectEditModal from './ProjectEditModal';
+import { toast } from 'sonner';
 
 const ProjectManagement = () => {
+  const { projects, loading, createProject, updateProject, deleteProject } = useProjects();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
 
   const handleCreateNew = () => {
     setSelectedProject(null);
@@ -24,9 +27,19 @@ const ProjectManagement = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (projectId: string) => {
-    // Implementar lógica de exclusão
-    console.log('Excluir projeto:', projectId);
+  const handleDelete = async (projectId: string) => {
+    if (!confirm('Tem certeza que deseja excluir este projeto?')) return;
+    
+    try {
+      setDeleteLoading(projectId);
+      await deleteProject(projectId);
+      toast.success('Projeto excluído com sucesso!');
+    } catch (error) {
+      toast.error('Erro ao excluir projeto');
+      console.error('Erro:', error);
+    } finally {
+      setDeleteLoading(null);
+    }
   };
 
   const handleCloseModal = () => {
@@ -34,6 +47,31 @@ const ProjectManagement = () => {
     setSelectedProject(null);
     setIsCreating(false);
   };
+
+  const handleSaveProject = async (projectData: any) => {
+    try {
+      if (isCreating) {
+        await createProject(projectData);
+        toast.success('Projeto criado com sucesso!');
+      } else if (selectedProject) {
+        await updateProject(selectedProject.id, projectData);
+        toast.success('Projeto atualizado com sucesso!');
+      }
+      handleCloseModal();
+    } catch (error) {
+      toast.error(isCreating ? 'Erro ao criar projeto' : 'Erro ao atualizar projeto');
+      console.error('Erro:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin" />
+        <span className="ml-2">Carregando projetos...</span>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -82,14 +120,32 @@ const ProjectManagement = () => {
                     size="sm" 
                     className="text-destructive hover:bg-destructive hover:text-destructive-foreground px-3"
                     onClick={() => handleDelete(project.id)}
+                    disabled={deleteLoading === project.id}
                   >
-                    <Trash2 className="w-4 h-4" />
+                    {deleteLoading === project.id ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
               </div>
             </Card>
           ))}
         </div>
+
+        {projects.length === 0 && (
+          <div className="text-center py-12 text-muted-foreground">
+            <Plus className="w-12 h-12 mx-auto mb-4 opacity-50" />
+            <p>Nenhum projeto encontrado</p>
+            <Button 
+              onClick={handleCreateNew} 
+              className="mt-4 gradient-primary text-white"
+            >
+              Criar primeiro projeto
+            </Button>
+          </div>
+        )}
       </div>
 
       <ProjectEditModal
@@ -97,6 +153,7 @@ const ProjectManagement = () => {
         onClose={handleCloseModal}
         project={selectedProject}
         isCreating={isCreating}
+        onSave={handleSaveProject}
       />
     </>
   );

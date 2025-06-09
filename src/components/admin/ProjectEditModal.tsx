@@ -8,26 +8,28 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Plus, X } from 'lucide-react';
-import { categories } from '@/data/projects';
 import ProjectPreview from './ProjectPreview';
+
+const categories = ['Todos', 'E-commerce', 'Website', 'FinTech', 'SaaS', 'Mobile'];
 
 interface ProjectEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   project?: any;
   isCreating?: boolean;
+  onSave?: (projectData: any) => void;
 }
 
-const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: ProjectEditModalProps) => {
+const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false, onSave }: ProjectEditModalProps) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    fullDescription: '',
+    full_description: '',
     image: '',
     tech: [],
     category: '',
     repository: '',
-    liveDemo: '',
+    live_demo: '',
     images: [],
     features: [],
     challenges: [],
@@ -37,19 +39,29 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
   useEffect(() => {
     if (project) {
       setFormData({
-        ...project,
-        tech: Array.isArray(project.tech) ? project.tech : project.tech?.split(', ') || []
+        title: project.title || '',
+        description: project.description || '',
+        full_description: project.full_description || '',
+        image: project.image || '',
+        tech: Array.isArray(project.tech) ? project.tech : [],
+        category: project.category || '',
+        repository: project.repository || '',
+        live_demo: project.live_demo || '',
+        images: Array.isArray(project.images) ? project.images : [],
+        features: Array.isArray(project.features) ? project.features : [],
+        challenges: Array.isArray(project.challenges) ? project.challenges : [],
+        results: Array.isArray(project.results) ? project.results : []
       });
     } else if (isCreating) {
       setFormData({
         title: '',
         description: '',
-        fullDescription: '',
+        full_description: '',
         image: '',
         tech: [],
         category: '',
         repository: '',
-        liveDemo: '',
+        live_demo: '',
         images: [],
         features: [],
         challenges: [],
@@ -75,8 +87,12 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
   };
 
   const handleSave = () => {
-    console.log('Salvando projeto:', formData);
-    onClose();
+    if (!formData.title.trim() || !formData.description.trim()) {
+      alert('Por favor, preencha pelo menos o título e a descrição.');
+      return;
+    }
+    
+    onSave?.(formData);
   };
 
   const renderArrayInput = (field: string, label: string, placeholder: string) => (
@@ -165,8 +181,8 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
                   <div>
                     <label className="text-sm font-medium">Descrição Completa</label>
                     <Textarea
-                      value={formData.fullDescription}
-                      onChange={(e) => handleFormChange('fullDescription', e.target.value)}
+                      value={formData.full_description}
+                      onChange={(e) => handleFormChange('full_description', e.target.value)}
                       placeholder="Descrição detalhada do projeto"
                       rows={3}
                     />
@@ -198,8 +214,8 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
                     <div>
                       <label className="text-sm font-medium">Demo ao Vivo (URL)</label>
                       <Input
-                        value={formData.liveDemo}
-                        onChange={(e) => handleFormChange('liveDemo', e.target.value)}
+                        value={formData.live_demo}
+                        onChange={(e) => handleFormChange('live_demo', e.target.value)}
                         placeholder="URL da demo"
                       />
                     </div>

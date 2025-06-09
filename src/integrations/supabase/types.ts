@@ -9,7 +9,128 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      message_responses: {
+        Row: {
+          created_at: string
+          id: string
+          message_id: string
+          response_text: string
+          response_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message_id: string
+          response_text: string
+          response_type?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message_id?: string
+          response_text?: string
+          response_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_responses_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          category: string
+          challenges: string[]
+          created_at: string
+          description: string
+          features: string[]
+          full_description: string
+          id: string
+          image: string
+          images: string[]
+          live_demo: string | null
+          repository: string | null
+          results: string[]
+          tech: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          challenges?: string[]
+          created_at?: string
+          description: string
+          features?: string[]
+          full_description: string
+          id?: string
+          image: string
+          images?: string[]
+          live_demo?: string | null
+          repository?: string | null
+          results?: string[]
+          tech?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          challenges?: string[]
+          created_at?: string
+          description?: string
+          features?: string[]
+          full_description?: string
+          id?: string
+          image?: string
+          images?: string[]
+          live_demo?: string | null
+          repository?: string | null
+          results?: string[]
+          tech?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

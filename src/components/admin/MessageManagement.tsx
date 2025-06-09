@@ -3,63 +3,22 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Mail, User, Calendar, Eye } from 'lucide-react';
+import { Trash2, Mail, User, Calendar, Eye, Loader2 } from 'lucide-react';
+import { useMessages } from '@/hooks/useMessages';
 import MessageModal from './MessageModal';
-
-// Mock data para mensagens
-const mockMessages = [
-  {
-    id: 1,
-    name: 'João Silva',
-    email: 'joao@email.com',
-    phone: '(11) 99999-9999',
-    company: 'Tech Solutions',
-    message: 'Gostaria de um orçamento para desenvolvimento de um e-commerce completo com todas as funcionalidades modernas.',
-    date: '2024-01-15',
-    status: 'new',
-    responses: []
-  },
-  {
-    id: 2,
-    name: 'Maria Santos',
-    email: 'maria@startup.com',
-    phone: '(21) 88888-8888',
-    company: 'StartupXYZ',
-    message: 'Preciso de um site institucional moderno e responsivo para minha startup de tecnologia.',
-    date: '2024-01-14',
-    status: 'responded',
-    responses: [
-      {
-        id: 1,
-        message: 'Olá Maria! Agradecemos seu interesse. Vamos agendar uma reunião para discutir os detalhes.',
-        date: '2024-01-14',
-        type: 'custom'
-      }
-    ]
-  },
-  {
-    id: 3,
-    name: 'Carlos Oliveira',
-    email: 'carlos@empresa.com',
-    phone: '(31) 77777-7777',
-    company: 'Empresa ABC',
-    message: 'Tenho interesse em uma aplicação web para controle financeiro empresarial.',
-    date: '2024-01-13',
-    status: 'new',
-    responses: []
-  }
-];
+import { toast } from 'sonner';
 
 const MessageManagement = () => {
-  const [messages, setMessages] = useState(mockMessages);
+  const { messages, loading, deleteMessage, addMessageResponse } = useMessages();
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      new: { variant: 'default' as const, text: 'Nova', count: messages.filter(m => m.status === 'new').length },
-      responded: { variant: 'secondary' as const, text: 'Respondida', count: messages.filter(m => m.status === 'responded').length },
-      archived: { variant: 'outline' as const, text: 'Arquivada', count: messages.filter(m => m.status === 'archived').length }
+      new: { variant: 'default' as const, text: 'Nova' },
+      responded: { variant: 'secondary' as const, text: 'Respondida' },
+      archived: { variant: 'outline' as const, text: 'Arquivada' }
     };
     
     const config = variants[status] || variants.new;
@@ -71,31 +30,45 @@ const MessageManagement = () => {
     setIsModalOpen(true);
   };
 
-  const handleSendResponse = (messageId: number, response: string, type: string) => {
-    const newResponse = {
-      id: Date.now(),
-      message: response,
-      date: new Date().toISOString().split('T')[0],
-      type
-    };
-
-    setMessages(messages.map(msg => 
-      msg.id === messageId 
-        ? { 
-            ...msg, 
-            status: 'responded',
-            responses: [...msg.responses, newResponse]
-          }
-        : msg
-    ));
+  const handleSendResponse = async (messageId: string, response: string, type: string) => {
+    try {
+      await addMessageResponse(messageId, response, type as 'custom' | 'quick');
+      toast.success('Resposta enviada com sucesso!');
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error('Erro ao enviar resposta');
+      console.error('Erro:', error);
+    }
   };
 
-  const handleDeleteMessage = (messageId: number) => {
-    setMessages(messages.filter(msg => msg.id !== messageId));
+  const handleDeleteMessage = async (messageId: string) => {
+    if (!confirm('Tem certeza que deseja excluir esta mensagem?')) return;
+    
+    try {
+      setDeleteLoading(messageId);
+      await deleteMessage(messageId);
+      toast.success('Mensagem excluída com sucesso!');
+    } catch (error) {
+      toast.error('Erro ao excluir mensagem');
+      console.error('Erro:', error);
+    } finally {
+      setDeleteLoading(null);
+    }
   };
 
   const newMessagesCount = messages.filter(m => m.status === 'new').length;
   const respondedMessagesCount = messages.filter(m => m.status === 'responded').length;
+
+  if (loading) {
+    return (
+      <Card>
+        <CardContent className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin" />
+          <span className="ml-2">Carregando mensagens...</span>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -130,7 +103,7 @@ const MessageManagement = () => {
                     
                     <div className="space-y-1 text-sm text-muted-foreground mb-3">
                       <p className="break-all">📧 {message.email}</p>
-                      <p>📱 {message.phone}</p>
+                      {message.phone && <p>📱 {message.phone}</p>}
                       {message.company && <p>🏢 {message.company}</p>}
                     </div>
                     
@@ -139,7 +112,7 @@ const MessageManagement = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Calendar className="w-3 h-3" />
-                        {new Date(message.date).toLocaleDateString('pt-BR')}
+                        {new Date(message.created_at).toLocaleDateString('pt-BR')}
                       </div>
                       
                       <div className="flex gap-2">
@@ -162,8 +135,13 @@ const MessageManagement = () => {
                             e.stopPropagation();
                             handleDeleteMessage(message.id);
                           }}
+                          disabled={deleteLoading === message.id}
                         >
-                          <Trash2 className="w-4 h-4" />
+                          {deleteLoading === message.id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
                         </Button>
                       </div>
                     </div>

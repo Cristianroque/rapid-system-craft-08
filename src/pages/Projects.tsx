@@ -3,15 +3,17 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Header from '@/components/Header';
-import { projects, categories } from '@/data/projects';
+import { useProjects } from '@/hooks/useProjects';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { Github, ExternalLink, Search, Filter } from 'lucide-react';
+import { Github, ExternalLink, Search, Filter, Loader2 } from 'lucide-react';
+
+const categories = ['Todos', 'E-commerce', 'Website', 'FinTech', 'SaaS', 'Mobile'];
 
 const Projects = () => {
+  const { projects, loading } = useProjects();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
   const [titleRef, titleVisible] = useScrollAnimation();
@@ -53,7 +55,6 @@ const Projects = () => {
             }`}
           >
             <div className="max-w-4xl mx-auto">
-              {/* Barra de Pesquisa e Filtro lado a lado */}
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
@@ -82,65 +83,74 @@ const Projects = () => {
                 </div>
               </div>
 
-              {/* Resultados */}
               <div className="text-center sm:text-left">
                 <p className="text-muted-foreground">
-                  {filteredProjects.length} projeto{filteredProjects.length !== 1 ? 's' : ''} encontrado{filteredProjects.length !== 1 ? 's' : ''}
+                  {loading ? 'Carregando...' : `${filteredProjects.length} projeto${filteredProjects.length !== 1 ? 's' : ''} encontrado${filteredProjects.length !== 1 ? 's' : ''}`}
                 </p>
               </div>
             </div>
           </div>
 
+          {/* Loading State */}
+          {loading && (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin" />
+              <span className="ml-2">Carregando projetos...</span>
+            </div>
+          )}
+
           {/* Grid de Projetos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-7xl mx-auto">
-            {filteredProjects.map((project, index) => (
-              <Link key={index} to={`/projetos/${project.id}`}>
-                <Card 
-                  className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full"
-                  style={{ animationDelay: `${index * 200}ms` }}
-                >
-                  <div className="relative overflow-hidden">
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-36 md:h-40 object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <Badge className="absolute top-3 left-3 gradient-primary text-white font-medium text-xs">
-                      {project.category}
-                    </Badge>
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                  
-                  <CardContent className="p-4 md:p-5 flex flex-col flex-grow">
-                    <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                      {project.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-3 leading-relaxed text-sm line-clamp-3 flex-grow">
-                      {project.description}
-                    </p>
+          {!loading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-7xl mx-auto">
+              {filteredProjects.map((project, index) => (
+                <Link key={project.id} to={`/projetos/${project.id}`}>
+                  <Card 
+                    className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full"
+                    style={{ animationDelay: `${index * 200}ms` }}
+                  >
+                    <div className="relative overflow-hidden">
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-36 md:h-40 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <Badge className="absolute top-3 left-3 gradient-primary text-white font-medium text-xs">
+                        {project.category}
+                      </Badge>
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                     
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {project.tech.slice(0, 3).map((tech, techIndex) => (
-                        <Badge key={techIndex} variant="secondary" className="text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>Ver detalhes</span>
-                      <div className="flex gap-1">
-                        <Github className="w-3 h-3" />
-                        <ExternalLink className="w-3 h-3" />
+                    <CardContent className="p-4 md:p-5 flex flex-col flex-grow">
+                      <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                        {project.title}
+                      </h3>
+                      <p className="text-muted-foreground mb-3 leading-relaxed text-sm line-clamp-3 flex-grow">
+                        {project.description}
+                      </p>
+                      
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {project.tech.slice(0, 3).map((tech, techIndex) => (
+                          <Badge key={techIndex} variant="secondary" className="text-xs">
+                            {tech}
+                          </Badge>
+                        ))}
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
 
-          {filteredProjects.length === 0 && (
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>Ver detalhes</span>
+                        <div className="flex gap-1">
+                          <Github className="w-3 h-3" />
+                          <ExternalLink className="w-3 h-3" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {!loading && filteredProjects.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground text-lg">
                 Nenhum projeto encontrado para os critérios selecionados.

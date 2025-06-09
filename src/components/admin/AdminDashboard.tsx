@@ -2,59 +2,15 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { projects } from '@/data/projects';
-import { BarChart3, MessageSquare, FolderOpen, TrendingUp, Users, Clock } from 'lucide-react';
+import { useProjects } from '@/hooks/useProjects';
+import { useMessages } from '@/hooks/useMessages';
+import { BarChart3, MessageSquare, FolderOpen, TrendingUp, Users, Clock, Loader2 } from 'lucide-react';
 import ProjectEditModal from './ProjectEditModal';
 import MessageModal from './MessageModal';
 
-// Mock data para demonstração
-const mockMessages = [
-  { 
-    id: 1, 
-    name: 'João Silva', 
-    email: 'joao@email.com',
-    phone: '(11) 99999-9999',
-    company: 'Tech Solutions',
-    subject: 'Projeto E-commerce',
-    message: 'Olá, gostaria de solicitar um orçamento para desenvolvimento de uma plataforma de e-commerce.',
-    status: 'new', 
-    date: '2024-01-15',
-    responses: []
-  },
-  { 
-    id: 2, 
-    name: 'Maria Santos', 
-    email: 'maria@empresa.com',
-    phone: '(21) 88888-8888',
-    company: 'StartupXYZ',
-    subject: 'Site Institucional',
-    message: 'Preciso de um site institucional para minha empresa de consultoria.',
-    status: 'responded', 
-    date: '2024-01-14',
-    responses: [
-      {
-        id: 1,
-        message: 'Olá Maria! Agradecemos seu interesse.',
-        date: '2024-01-14',
-        type: 'custom'
-      }
-    ]
-  },
-  { 
-    id: 3, 
-    name: 'Carlos Oliveira', 
-    email: 'carlos@startup.com',
-    phone: '(31) 77777-7777',
-    company: 'Empresa ABC',
-    subject: 'App Mobile',
-    message: 'Interessado em desenvolver um aplicativo mobile para nossa startup.',
-    status: 'new', 
-    date: '2024-01-13',
-    responses: []
-  }
-];
-
 const AdminDashboard = () => {
+  const { projects, loading: projectsLoading, createProject } = useProjects();
+  const { messages, loading: messagesLoading, addMessageResponse } = useMessages();
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -69,14 +25,14 @@ const AdminDashboard = () => {
     },
     {
       title: 'Mensagens Novas',
-      value: mockMessages.filter(m => m.status === 'new').length,
+      value: messages.filter(m => m.status === 'new').length,
       icon: MessageSquare,
       description: 'Aguardando resposta',
       color: 'text-green-600'
     },
     {
       title: 'Total de Mensagens',
-      value: mockMessages.length,
+      value: messages.length,
       icon: Users,
       description: 'Contatos recebidos',
       color: 'text-purple-600'
@@ -91,7 +47,7 @@ const AdminDashboard = () => {
   ];
 
   const recentProjects = projects.slice(0, 3);
-  const recentMessages = mockMessages.slice(0, 3);
+  const recentMessages = messages.slice(0, 3);
 
   const handleViewAllProjects = () => {
     const projectsTab = document.querySelector('[data-state="inactive"][value="projects"]') as HTMLButtonElement;
@@ -112,10 +68,32 @@ const AdminDashboard = () => {
     setIsMessageModalOpen(true);
   };
 
-  const handleSendResponse = (messageId: number, response: string, type: string) => {
-    console.log('Enviando resposta:', { messageId, response, type });
-    setIsMessageModalOpen(false);
+  const handleSendResponse = async (messageId: string, response: string, type: string) => {
+    try {
+      await addMessageResponse(messageId, response, type as 'custom' | 'quick');
+      setIsMessageModalOpen(false);
+    } catch (error) {
+      console.error('Erro ao enviar resposta:', error);
+    }
   };
+
+  const handleCreateProject = async (projectData: any) => {
+    try {
+      await createProject(projectData);
+      setIsProjectModalOpen(false);
+    } catch (error) {
+      console.error('Erro ao criar projeto:', error);
+    }
+  };
+
+  if (projectsLoading || messagesLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin" />
+        <span className="ml-2">Carregando dashboard...</span>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -170,10 +148,15 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               ))}
+              {recentProjects.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  Nenhum projeto encontrado
+                </p>
+              )}
             </CardContent>
           </Card>
 
-          {/* Recent Messages - Sem scroll lateral */}
+          {/* Recent Messages */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">Mensagens Recentes</CardTitle>
@@ -196,10 +179,10 @@ const AdminDashboard = () => {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate text-sm">{message.name}</p>
                     <p className="text-xs text-muted-foreground truncate">
-                      {message.subject}
+                      {message.company || message.email}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(message.date).toLocaleDateString('pt-BR')}
+                      {new Date(message.created_at).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
                   <div className={`px-2 py-1 rounded-full text-xs flex-shrink-0 ${
@@ -211,6 +194,11 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               ))}
+              {recentMessages.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  Nenhuma mensagem encontrada
+                </p>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -250,6 +238,7 @@ const AdminDashboard = () => {
         isOpen={isProjectModalOpen}
         onClose={() => setIsProjectModalOpen(false)}
         isCreating={true}
+        onSave={handleCreateProject}
       />
 
       <MessageModal
