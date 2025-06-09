@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Header from '@/components/Header';
 import { projects, categories } from '@/data/projects';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { Github, ExternalLink, Calendar, Search } from 'lucide-react';
+import { Github, ExternalLink, Calendar, Search, Filter } from 'lucide-react';
 
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -53,34 +53,40 @@ const Projects = () => {
             }`}
           >
             <div className="max-w-4xl mx-auto space-y-4">
-              {/* Barra de Pesquisa */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <Input
-                  placeholder="Pesquisar projetos, tecnologias..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-12 text-base bg-background/50 backdrop-blur-sm border-muted-foreground/20"
-                />
+              {/* Barra de Pesquisa e Filtro lado a lado */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Input
+                    placeholder="Pesquisar projetos, tecnologias..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 h-12 text-base bg-background/50 backdrop-blur-sm border-muted-foreground/20"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Filter className="w-5 h-5 text-muted-foreground" />
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger className="w-[200px] h-12 bg-background/50 backdrop-blur-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map(category => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
-              {/* Filtros e Resultados */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Resultados */}
+              <div className="text-center sm:text-left">
                 <p className="text-muted-foreground">
                   {filteredProjects.length} projeto{filteredProjects.length !== 1 ? 's' : ''} encontrado{filteredProjects.length !== 1 ? 's' : ''}
                 </p>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-[200px] bg-background/50 backdrop-blur-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map(category => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </div>
             </div>
           </div>
@@ -100,7 +106,7 @@ const Projects = () => {
                     <img 
                       src={project.image} 
                       alt={project.title}
-                      className="w-full h-40 md:h-44 object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-48 md:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <Badge className="absolute top-3 left-3 gradient-primary text-white font-medium">
                       {project.category}
@@ -108,8 +114,8 @@ const Projects = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                   
-                  <CardContent className="p-4 md:p-5 flex flex-col h-full">
-                    <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                  <CardContent className="p-5 md:p-6 flex flex-col h-full">
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                       {project.title}
                     </h3>
                     <p className="text-muted-foreground mb-4 leading-relaxed text-sm line-clamp-3 flex-grow">
@@ -117,17 +123,30 @@ const Projects = () => {
                     </p>
 
                     {/* Tecnologias */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {project.tech.slice(0, 3).map((tech, techIndex) => (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.slice(0, 4).map((tech, techIndex) => (
                         <Badge key={techIndex} variant="secondary" className="text-xs font-medium">
                           {tech}
                         </Badge>
                       ))}
-                      {project.tech.length > 3 && (
+                      {project.tech.length > 4 && (
                         <Badge variant="secondary" className="text-xs font-medium">
-                          +{project.tech.length - 3}
+                          +{project.tech.length - 4}
                         </Badge>
                       )}
+                    </div>
+
+                    {/* Features principais */}
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold mb-2 text-gradient">Principais Features:</h4>
+                      <ul className="space-y-1">
+                        {project.features.slice(0, 2).map((feature, index) => (
+                          <li key={index} className="flex items-start gap-2 text-xs text-muted-foreground">
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
+                            <span className="line-clamp-1">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
 
                     {/* Informações adicionais */}
@@ -138,16 +157,16 @@ const Projects = () => {
                       </div>
                       <div className="flex gap-2">
                         {project.repository && (
-                          <Github className="w-3 h-3" />
+                          <Github className="w-4 h-4" />
                         )}
                         {project.liveDemo && (
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-4 h-4" />
                         )}
                       </div>
                     </div>
 
                     {/* Botão */}
-                    <Button className="w-full gradient-primary text-white py-2.5 text-sm group-hover:scale-105 transition-all duration-300">
+                    <Button className="w-full gradient-primary text-white py-3 text-sm group-hover:scale-105 transition-all duration-300">
                       Ver Projeto Completo
                     </Button>
                   </CardContent>
