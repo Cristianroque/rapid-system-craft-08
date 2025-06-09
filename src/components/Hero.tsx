@@ -25,7 +25,21 @@ const Hero = () => {
 
   return (
     <>
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/20">
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Background Image with Gradient Overlay */}
+        <div className="absolute inset-0 -z-10">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80')`
+            }}
+          />
+          {/* Gradient overlay for transparency effect */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background"></div>
+          {/* Additional dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-background/20"></div>
+        </div>
+
         <div className="container mx-auto px-4 py-16 md:py-20 text-center relative z-10">
           <div className={`max-w-4xl mx-auto transition-all duration-1200 ${
             isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
@@ -64,19 +78,12 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* Animação de fundo mais suave e profissional */}
-        <div className="absolute inset-0 -z-10">
-          {/* Gradiente animado */}
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-pulse"></div>
-          
+        {/* Floating animation elements */}
+        <div className="absolute inset-0 -z-5">
           {/* Círculos flutuantes */}
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite]"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-accent/15 to-transparent rounded-full blur-3xl animate-[float_8s_ease-in-out_infinite_reverse]"></div>
-          <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-2xl animate-[float_7s_ease-in-out_infinite]"></div>
-          
-          {/* Linhas geométricas sutis */}
-          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-[slideRight_12s_linear_infinite]"></div>
-          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent animate-[slideLeft_10s_linear_infinite]"></div>
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite]"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-accent/8 to-transparent rounded-full blur-3xl animate-[float_8s_ease-in-out_infinite_reverse]"></div>
+          <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-primary/8 to-accent/8 rounded-full blur-2xl animate-[float_7s_ease-in-out_infinite]"></div>
         </div>
       </section>
 
@@ -89,18 +96,6 @@ const Hero = () => {
         @keyframes float {
           0%, 100% { transform: translateY(0) scale(1); }
           50% { transform: translateY(-20px) scale(1.1); }
-        }
-        
-        @keyframes slideRight {
-          0% { transform: translateX(-100%); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateX(100%); opacity: 0; }
-        }
-        
-        @keyframes slideLeft {
-          0% { transform: translateX(100%); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateX(-100%); opacity: 0; }
         }
       `}</style>
     </>
