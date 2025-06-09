@@ -1,7 +1,14 @@
 
 import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
 
 const Hero = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   const scrollToContact = () => {
     const element = document.getElementById('contato');
     if (element) {
@@ -15,7 +22,9 @@ const Hero = () => {
       <div className="absolute inset-0 gradient-primary opacity-5"></div>
       
       <div className="container mx-auto px-4 py-20 text-center relative z-10">
-        <div className="max-w-4xl mx-auto animate-fade-in">
+        <div className={`max-w-4xl mx-auto transition-all duration-1200 ${
+          isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
+        }`}>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Soluções digitais que{' '}
             <span className="text-gradient">impressionam</span>
@@ -25,7 +34,9 @@ const Hero = () => {
             Portfólio de projetos que transformaram ideias em sistemas ágeis, modernos e funcionais.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1200 delay-300 ${
+            isVisible ? 'animate-fade-in' : 'opacity-0 translate-y-5'
+          }`}>
             <Button 
               onClick={scrollToContact}
               size="lg" 
