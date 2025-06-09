@@ -13,28 +13,44 @@ const mockMessages = [
     id: 1, 
     name: 'João Silva', 
     email: 'joao@email.com',
+    phone: '(11) 99999-9999',
+    company: 'Tech Solutions',
     subject: 'Projeto E-commerce',
     message: 'Olá, gostaria de solicitar um orçamento para desenvolvimento de uma plataforma de e-commerce.',
     status: 'new', 
-    date: '2024-01-15' 
+    date: '2024-01-15',
+    responses: []
   },
   { 
     id: 2, 
     name: 'Maria Santos', 
     email: 'maria@empresa.com',
+    phone: '(21) 88888-8888',
+    company: 'StartupXYZ',
     subject: 'Site Institucional',
     message: 'Preciso de um site institucional para minha empresa de consultoria.',
     status: 'responded', 
-    date: '2024-01-14' 
+    date: '2024-01-14',
+    responses: [
+      {
+        id: 1,
+        message: 'Olá Maria! Agradecemos seu interesse.',
+        date: '2024-01-14',
+        type: 'custom'
+      }
+    ]
   },
   { 
     id: 3, 
     name: 'Carlos Oliveira', 
     email: 'carlos@startup.com',
+    phone: '(31) 77777-7777',
+    company: 'Empresa ABC',
     subject: 'App Mobile',
     message: 'Interessado em desenvolver um aplicativo mobile para nossa startup.',
     status: 'new', 
-    date: '2024-01-13' 
+    date: '2024-01-13',
+    responses: []
   }
 ];
 
@@ -78,16 +94,14 @@ const AdminDashboard = () => {
   const recentMessages = mockMessages.slice(0, 3);
 
   const handleViewAllProjects = () => {
-    // Navegação para aba de projetos
-    const projectsTab = document.querySelector('[value="projects"]') as HTMLButtonElement;
+    const projectsTab = document.querySelector('[data-state="inactive"][value="projects"]') as HTMLButtonElement;
     if (projectsTab) {
       projectsTab.click();
     }
   };
 
   const handleViewAllMessages = () => {
-    // Navegação para aba de mensagens
-    const messagesTab = document.querySelector('[value="messages"]') as HTMLButtonElement;
+    const messagesTab = document.querySelector('[data-state="inactive"][value="messages"]') as HTMLButtonElement;
     if (messagesTab) {
       messagesTab.click();
     }
@@ -96,6 +110,11 @@ const AdminDashboard = () => {
   const handleOpenMessage = (message: any) => {
     setSelectedMessage(message);
     setIsMessageModalOpen(true);
+  };
+
+  const handleSendResponse = (messageId: number, response: string, type: string) => {
+    console.log('Enviando resposta:', { messageId, response, type });
+    setIsMessageModalOpen(false);
   };
 
   return (
@@ -135,17 +154,17 @@ const AdminDashboard = () => {
                 Ver Todos
               </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3">
               {recentProjects.map((project) => (
-                <div key={project.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                <div key={project.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
                   <img 
                     src={project.image} 
                     alt={project.title}
-                    className="w-12 h-12 rounded-lg object-cover"
+                    className="w-8 h-8 rounded object-cover flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{project.title}</p>
-                    <p className="text-sm text-muted-foreground truncate">
+                    <p className="font-medium truncate text-sm">{project.title}</p>
+                    <p className="text-xs text-muted-foreground truncate">
                       {project.category}
                     </p>
                   </div>
@@ -154,7 +173,7 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Recent Messages */}
+          {/* Recent Messages - Sem scroll lateral */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">Mensagens Recentes</CardTitle>
@@ -162,28 +181,28 @@ const AdminDashboard = () => {
                 Ver Todas
               </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3">
               {recentMessages.map((message) => (
                 <div 
                   key={message.id} 
-                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
                   onClick={() => handleOpenMessage(message)}
                 >
-                  <div className="w-10 h-10 bg-gradient-to-r from-primary to-primary/60 rounded-full flex items-center justify-center">
-                    <span className="text-white font-medium text-sm">
+                  <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary/60 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-medium text-xs">
                       {message.name.charAt(0)}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{message.name}</p>
-                    <p className="text-sm text-muted-foreground truncate">
+                    <p className="font-medium truncate text-sm">{message.name}</p>
+                    <p className="text-xs text-muted-foreground truncate">
                       {message.subject}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {new Date(message.date).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
-                  <div className={`px-2 py-1 rounded-full text-xs ${
+                  <div className={`px-2 py-1 rounded-full text-xs flex-shrink-0 ${
                     message.status === 'new' 
                       ? 'bg-green-100 text-green-700' 
                       : 'bg-gray-100 text-gray-700'
@@ -214,11 +233,11 @@ const AdminDashboard = () => {
                 <MessageSquare className="w-6 h-6" />
                 <span className="text-sm">Ver Mensagens</span>
               </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2">
+              <Button variant="outline" className="h-20 flex-col gap-2" onClick={() => alert('Relatórios em desenvolvimento')}>
                 <BarChart3 className="w-6 h-6" />
                 <span className="text-sm">Relatórios</span>
               </Button>
-              <Button variant="outline" className="h-20 flex-col gap-2">
+              <Button variant="outline" className="h-20 flex-col gap-2" onClick={() => alert('Analytics em desenvolvimento')}>
                 <TrendingUp className="w-6 h-6" />
                 <span className="text-sm">Analytics</span>
               </Button>
@@ -237,6 +256,7 @@ const AdminDashboard = () => {
         isOpen={isMessageModalOpen}
         onClose={() => setIsMessageModalOpen(false)}
         message={selectedMessage}
+        onSendResponse={handleSendResponse}
       />
     </>
   );

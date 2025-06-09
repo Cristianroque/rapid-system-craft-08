@@ -113,7 +113,7 @@ const MessageManagement = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3 max-h-[600px] overflow-y-auto">
+          <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
             {messages.map((message) => (
               <Card 
                 key={message.id} 
@@ -121,7 +121,7 @@ const MessageManagement = () => {
                 onClick={() => handleOpenMessage(message)}
               >
                 <div className="flex items-start justify-between">
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <User className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                       <span className="font-medium">{message.name}</span>
@@ -129,12 +129,12 @@ const MessageManagement = () => {
                     </div>
                     
                     <div className="space-y-1 text-sm text-muted-foreground mb-3">
-                      <p>📧 {message.email}</p>
+                      <p className="break-all">📧 {message.email}</p>
                       <p>📱 {message.phone}</p>
                       {message.company && <p>🏢 {message.company}</p>}
                     </div>
                     
-                    <p className="text-sm line-clamp-2 mb-3">{message.message}</p>
+                    <p className="text-sm line-clamp-2 mb-3 break-words">{message.message}</p>
                     
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
