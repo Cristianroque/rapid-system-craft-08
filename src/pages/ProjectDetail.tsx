@@ -6,19 +6,14 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import { useProjects } from '@/hooks/useProjects';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const { projects, loading, error } = useProjects();
-  const [titleRef, titleVisible] = useScrollAnimation();
-  const [imageRef, imageVisible] = useScrollAnimation();
-  const [contentRef, contentVisible] = useScrollAnimation();
 
   console.log('ProjectDetail - ID from URL:', id);
   console.log('ProjectDetail - All projects:', projects);
 
-  // Encontrar o projeto pelo ID
   const project = projects.find(p => String(p.id) === String(id));
   
   console.log('ProjectDetail - Found project:', project);
@@ -27,10 +22,12 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center min-h-screen pt-20">
-          <div className="flex items-center">
-            <Loader2 className="w-8 h-8 animate-spin mr-2" />
-            <span>Carregando projeto...</span>
+        <div className="container mx-auto px-4 pt-24">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center text-foreground">
+              <Loader2 className="w-8 h-8 animate-spin mr-2" />
+              <span>Carregando projeto...</span>
+            </div>
           </div>
         </div>
       </div>
@@ -41,10 +38,10 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center min-h-screen pt-20">
-          <div className="text-center px-4">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4">Erro ao carregar projeto</h1>
-            <p className="text-muted-foreground mb-4">{error}</p>
+        <div className="container mx-auto px-4 pt-24">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold mb-4 text-foreground">Erro ao carregar projeto</h1>
+            <p className="text-muted-foreground mb-6">{error}</p>
             <Link to="/projetos">
               <Button className="gradient-primary text-white">
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -61,10 +58,10 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center min-h-screen pt-20">
-          <div className="text-center px-4">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4">Projeto não encontrado</h1>
-            <p className="text-muted-foreground mb-4">
+        <div className="container mx-auto px-4 pt-24">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold mb-4 text-foreground">Projeto não encontrado</h1>
+            <p className="text-muted-foreground mb-6">
               O projeto solicitado não foi encontrado.
             </p>
             <Link to="/projetos">
@@ -83,7 +80,7 @@ const ProjectDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="pt-20 pb-16">
+      <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-5xl">
           {/* Botão Voltar */}
           <div className="mb-8">
@@ -96,12 +93,7 @@ const ProjectDetail = () => {
           </div>
 
           {/* Header do Projeto */}
-          <section 
-            ref={titleRef}
-            className={`mb-12 transition-all duration-1000 ${
-              titleVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
-            }`}
-          >
+          <section className="mb-12">
             <div className="flex flex-wrap items-center gap-2 mb-6">
               <Badge className="gradient-primary text-white text-sm">{project.category}</Badge>
               {project.tech.slice(0, 4).map((tech, index) => (
@@ -109,7 +101,7 @@ const ProjectDetail = () => {
               ))}
             </div>
             
-            <h1 className="text-3xl lg:text-4xl font-bold mb-6">
+            <h1 className="text-4xl font-bold mb-6 text-foreground">
               {project.title}
             </h1>
             
@@ -138,12 +130,7 @@ const ProjectDetail = () => {
           </section>
 
           {/* Imagem Principal */}
-          <section 
-            ref={imageRef}
-            className={`mb-12 transition-all duration-1000 delay-300 ${
-              imageVisible ? 'animate-fade-in' : 'opacity-0 translate-y-10'
-            }`}
-          >
+          <section className="mb-12">
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img 
                 src={project.image} 
@@ -153,16 +140,10 @@ const ProjectDetail = () => {
             </div>
           </section>
 
-          {/* Informações do Projeto */}
-          <section 
-            ref={contentRef}
-            className={`space-y-8 transition-all duration-1000 delay-600 ${
-              contentVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            {/* Funcionalidades */}
-            {project.features && project.features.length > 0 && (
-              <Card className="animate-fade-in" style={{ animationDelay: '800ms' }}>
+          {/* Funcionalidades */}
+          {project.features && project.features.length > 0 && (
+            <section className="mb-8">
+              <Card>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold mb-4 text-gradient">Funcionalidades</h3>
                   <ul className="space-y-3">
@@ -175,67 +156,66 @@ const ProjectDetail = () => {
                   </ul>
                 </CardContent>
               </Card>
+            </section>
+          )}
+
+          {/* Desafios e Resultados */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {project.challenges && project.challenges.length > 0 && (
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4 text-gradient">Desafios</h3>
+                  <ul className="space-y-3">
+                    {project.challenges.map((challenge, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-muted-foreground text-sm">{challenge}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             )}
 
-            {/* Desafios e Resultados */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {project.challenges && project.challenges.length > 0 && (
-                <Card className="animate-fade-in" style={{ animationDelay: '1000ms' }}>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold mb-4 text-gradient">Desafios</h3>
-                    <ul className="space-y-3">
-                      {project.challenges.map((challenge, index) => (
-                        <li key={index} className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                          <span className="text-muted-foreground text-sm">{challenge}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-
-              {project.results && project.results.length > 0 && (
-                <Card className="animate-fade-in" style={{ animationDelay: '1200ms' }}>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold mb-4 text-gradient">Resultados</h3>
-                    <ul className="space-y-3">
-                      {project.results.map((result, index) => (
-                        <li key={index} className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                          <span className="text-muted-foreground text-sm">{result}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-
-            {/* Galeria de Imagens */}
-            {project.images && project.images.length > 0 && (
-              <section className="mt-12">
-                <h3 className="text-2xl font-semibold mb-6 text-center">
-                  Galeria do <span className="text-gradient">Projeto</span>
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {project.images.map((image, index) => (
-                    <div 
-                      key={index}
-                      className="animate-fade-in hover:scale-105 transition-transform duration-300 rounded-lg overflow-hidden shadow-md"
-                      style={{ animationDelay: `${1400 + index * 200}ms` }}
-                    >
-                      <img 
-                        src={image} 
-                        alt={`${project.title} - ${index + 1}`}
-                        className="w-full h-48 object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </section>
+            {project.results && project.results.length > 0 && (
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4 text-gradient">Resultados</h3>
+                  <ul className="space-y-3">
+                    {project.results.map((result, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-muted-foreground text-sm">{result}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
             )}
-          </section>
+          </div>
+
+          {/* Galeria de Imagens */}
+          {project.images && project.images.length > 0 && (
+            <section className="mt-12">
+              <h3 className="text-2xl font-semibold mb-6 text-center text-foreground">
+                Galeria do <span className="text-gradient">Projeto</span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {project.images.map((image, index) => (
+                  <div 
+                    key={index}
+                    className="hover:scale-105 transition-transform duration-300 rounded-lg overflow-hidden shadow-md"
+                  >
+                    <img 
+                      src={image} 
+                      alt={`${project.title} - ${index + 1}`}
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
       </main>
     </div>
