@@ -88,17 +88,21 @@ const ProjectManagement = ({ onProjectSelect, activeProject }: ProjectManagement
           placeholder={`Adicionar ${label.toLowerCase()}`}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
-              handleAddToArray(field, e.target.value);
-              e.target.value = '';
+              const target = e.target as HTMLInputElement;
+              handleAddToArray(field, target.value);
+              target.value = '';
             }
           }}
         />
         <Button
           type="button"
           onClick={(e) => {
-            const input = e.target.parentElement.querySelector('input');
-            handleAddToArray(field, input.value);
-            input.value = '';
+            const button = e.target as HTMLButtonElement;
+            const input = button.parentElement?.querySelector('input') as HTMLInputElement;
+            if (input) {
+              handleAddToArray(field, input.value);
+              input.value = '';
+            }
           }}
         >
           <Plus className="w-4 h-4" />
