@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,7 +32,7 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
   const [recipientName, setRecipientName] = useState('');
 
   // Pré-preencher campos quando o modal abrir
-  useState(() => {
+  useEffect(() => {
     if (message) {
       setEmailSubject(`Resposta sobre: ${message.message.substring(0, 50)}...`);
       setRecipientName(message.name);
@@ -234,6 +234,33 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
       </DialogContent>
     </Dialog>
   );
+
+  const handleSendResponse = (type = 'custom') => {
+    if (!message || !responseText.trim()) return;
+
+    onSendResponse?.(message.id, responseText, type);
+    setResponseText('');
+    setSelectedQuickResponse('');
+    setEmailSubject('');
+    setRecipientName('');
+  };
+
+  const handleQuickResponse = () => {
+    if (selectedQuickResponse) {
+      setResponseText(selectedQuickResponse);
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const variants = {
+      new: { variant: 'default' as const, text: 'Nova' },
+      responded: { variant: 'secondary' as const, text: 'Respondida' },
+      archived: { variant: 'outline' as const, text: 'Arquivada' }
+    };
+    
+    const config = variants[status] || variants.new;
+    return <Badge variant={config.variant}>{config.text}</Badge>;
+  };
 };
 
 export default MessageModal;
