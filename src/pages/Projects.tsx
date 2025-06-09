@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Header from '@/components/Header';
 import { projects, categories } from '@/data/projects';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import { Github, ExternalLink, Calendar, Search, Filter } from 'lucide-react';
+import { Github, ExternalLink, Search, Filter } from 'lucide-react';
 
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -52,9 +52,9 @@ const Projects = () => {
               contentVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
             }`}
           >
-            <div className="max-w-4xl mx-auto space-y-4">
+            <div className="max-w-4xl mx-auto">
               {/* Barra de Pesquisa e Filtro lado a lado */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                   <Input
@@ -92,55 +92,46 @@ const Projects = () => {
           </div>
 
           {/* Grid de Projetos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-7xl mx-auto">
             {filteredProjects.map((project, index) => (
-              <Link 
-                key={project.id} 
-                to={`/projetos/${project.id}`}
-                className="group"
-              >
-                <Card className="group-hover:scale-[1.02] transition-all duration-300 group-hover:shadow-xl overflow-hidden border-0 bg-card animate-fade-in h-full cursor-pointer"
-                  style={{ animationDelay: `${index * 150}ms` }}
+              <Link key={index} to={`/projetos/${project.id}`}>
+                <Card 
+                  className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full"
+                  style={{ animationDelay: `${index * 200}ms` }}
                 >
                   <div className="relative overflow-hidden">
                     <img 
                       src={project.image} 
                       alt={project.title}
-                      className="w-full h-48 md:h-52 object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-36 md:h-40 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <Badge className="absolute top-3 left-3 gradient-primary text-white font-medium">
+                    <Badge className="absolute top-3 left-3 gradient-primary text-white font-medium text-xs">
                       {project.category}
                     </Badge>
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                   
-                  <CardContent className="p-5 md:p-6 flex flex-col h-full">
-                    <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                  <CardContent className="p-4 md:p-5 flex flex-col flex-grow">
+                    <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                       {project.title}
                     </h3>
-                    <p className="text-muted-foreground mb-4 leading-relaxed text-sm line-clamp-3 flex-grow">
+                    <p className="text-muted-foreground mb-3 leading-relaxed text-sm line-clamp-3 flex-grow">
                       {project.description}
                     </p>
-
-                    {/* Tecnologias */}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    
+                    <div className="flex flex-wrap gap-1.5 mb-3">
                       {project.tech.slice(0, 3).map((tech, techIndex) => (
-                        <Badge key={techIndex} variant="secondary" className="text-xs font-medium">
+                        <Badge key={techIndex} variant="secondary" className="text-xs">
                           {tech}
                         </Badge>
                       ))}
-                      {project.tech.length > 3 && (
-                        <Badge variant="secondary" className="text-xs font-medium">
-                          +{project.tech.length - 3}
-                        </Badge>
-                      )}
                     </div>
 
                     {/* Features principais */}
                     <div className="mb-4">
                       <h4 className="text-sm font-semibold mb-2 text-gradient">Principais Features:</h4>
                       <div className="space-y-1">
-                        {project.features.slice(0, 2).map((feature, idx) => (
+                        {project.features.map((feature, idx) => (
                           <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
                             <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
                             <span className="line-clamp-1">{feature}</span>
@@ -149,26 +140,13 @@ const Projects = () => {
                       </div>
                     </div>
 
-                    {/* Informações adicionais */}
-                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        <span>2024</span>
-                      </div>
-                      <div className="flex gap-2">
-                        {project.repository && (
-                          <Github className="w-4 h-4" />
-                        )}
-                        {project.liveDemo && (
-                          <ExternalLink className="w-4 h-4" />
-                        )}
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Ver detalhes</span>
+                      <div className="flex gap-1">
+                        <Github className="w-3 h-3" />
+                        <ExternalLink className="w-3 h-3" />
                       </div>
                     </div>
-
-                    {/* Botão */}
-                    <Button className="w-full gradient-primary text-white py-3 text-sm group-hover:scale-105 transition-all duration-300">
-                      Ver Projeto Completo
-                    </Button>
                   </CardContent>
                 </Card>
               </Link>

@@ -129,114 +129,117 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl w-[95vw] h-[90vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>
-            {isCreating ? 'Criar Novo Projeto' : 'Editar Projeto'}
-          </DialogTitle>
-        </DialogHeader>
+      <DialogContent className="max-w-7xl w-[95vw] h-[85vh] p-0">
+        <div className="flex flex-col h-full">
+          <DialogHeader className="px-6 py-4 border-b">
+            <DialogTitle>
+              {isCreating ? 'Criar Novo Projeto' : 'Editar Projeto'}
+            </DialogTitle>
+          </DialogHeader>
 
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0">
-          {/* Formulário */}
-          <div className="space-y-3">
-            <ScrollArea className="h-full pr-2">
-              <div className="space-y-3">
-                <div>
-                  <label className="text-sm font-medium">Título</label>
-                  <Input
-                    value={formData.title}
-                    onChange={(e) => handleFormChange('title', e.target.value)}
-                    placeholder="Título do projeto"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Descrição Curta</label>
-                  <Textarea
-                    value={formData.description}
-                    onChange={(e) => handleFormChange('description', e.target.value)}
-                    placeholder="Descrição breve do projeto"
-                    rows={2}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Descrição Completa</label>
-                  <Textarea
-                    value={formData.fullDescription}
-                    onChange={(e) => handleFormChange('fullDescription', e.target.value)}
-                    placeholder="Descrição detalhada do projeto"
-                    rows={3}
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium">Categoria</label>
-                  <Select value={formData.category} onValueChange={(value) => handleFormChange('category', value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione uma categoria" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.filter(cat => cat !== 'Todos').map(category => (
-                        <SelectItem key={category} value={category}>{category}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 min-h-0">
+            {/* Formulário */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Informações do Projeto</h3>
+              <ScrollArea className="h-[calc(85vh-180px)]">
+                <div className="space-y-4 pr-4">
                   <div>
-                    <label className="text-sm font-medium">Imagem Principal (URL)</label>
+                    <label className="text-sm font-medium">Título</label>
                     <Input
-                      value={formData.image}
-                      onChange={(e) => handleFormChange('image', e.target.value)}
-                      placeholder="URL da imagem"
+                      value={formData.title}
+                      onChange={(e) => handleFormChange('title', e.target.value)}
+                      placeholder="Título do projeto"
                     />
                   </div>
+
                   <div>
-                    <label className="text-sm font-medium">Demo ao Vivo (URL)</label>
-                    <Input
-                      value={formData.liveDemo}
-                      onChange={(e) => handleFormChange('liveDemo', e.target.value)}
-                      placeholder="URL da demo"
+                    <label className="text-sm font-medium">Descrição Curta</label>
+                    <Textarea
+                      value={formData.description}
+                      onChange={(e) => handleFormChange('description', e.target.value)}
+                      placeholder="Descrição breve do projeto"
+                      rows={2}
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-sm font-medium">Repositório (URL)</label>
-                  <Input
-                    value={formData.repository}
-                    onChange={(e) => handleFormChange('repository', e.target.value)}
-                    placeholder="URL do repositório"
-                  />
-                </div>
+                  <div>
+                    <label className="text-sm font-medium">Descrição Completa</label>
+                    <Textarea
+                      value={formData.fullDescription}
+                      onChange={(e) => handleFormChange('fullDescription', e.target.value)}
+                      placeholder="Descrição detalhada do projeto"
+                      rows={3}
+                    />
+                  </div>
 
-                {renderArrayInput('tech', 'Tecnologias', 'Ex: React, Node.js')}
-                {renderArrayInput('images', 'Imagens Adicionais (URLs)', 'URL da imagem')}
-                {renderArrayInput('features', 'Funcionalidades', 'Dashboard em tempo real')}
-                {renderArrayInput('challenges', 'Desafios', 'Processamento de alto volume')}
-                {renderArrayInput('results', 'Resultados', 'Aumento de 45% na eficiência')}
-              </div>
-            </ScrollArea>
+                  <div>
+                    <label className="text-sm font-medium">Categoria</label>
+                    <Select value={formData.category} onValueChange={(value) => handleFormChange('category', value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione uma categoria" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.filter(cat => cat !== 'Todos').map(category => (
+                          <SelectItem key={category} value={category}>{category}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-sm font-medium">Imagem Principal (URL)</label>
+                      <Input
+                        value={formData.image}
+                        onChange={(e) => handleFormChange('image', e.target.value)}
+                        placeholder="URL da imagem"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Demo ao Vivo (URL)</label>
+                      <Input
+                        value={formData.liveDemo}
+                        onChange={(e) => handleFormChange('liveDemo', e.target.value)}
+                        placeholder="URL da demo"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium">Repositório (URL)</label>
+                    <Input
+                      value={formData.repository}
+                      onChange={(e) => handleFormChange('repository', e.target.value)}
+                      placeholder="URL do repositório"
+                    />
+                  </div>
+
+                  {renderArrayInput('tech', 'Tecnologias', 'Ex: React, Node.js')}
+                  {renderArrayInput('images', 'Imagens Adicionais (URLs)', 'URL da imagem')}
+                  {renderArrayInput('features', 'Funcionalidades', 'Dashboard em tempo real')}
+                  {renderArrayInput('challenges', 'Desafios', 'Processamento de alto volume')}
+                  {renderArrayInput('results', 'Resultados', 'Aumento de 45% na eficiência')}
+                </div>
+              </ScrollArea>
+            </div>
+
+            {/* Preview */}
+            <div className="bg-muted/30 rounded-lg p-4">
+              <h3 className="text-lg font-semibold mb-4">Preview</h3>
+              <ScrollArea className="h-[calc(85vh-180px)]">
+                <ProjectPreview project={formData} />
+              </ScrollArea>
+            </div>
           </div>
 
-          {/* Preview */}
-          <div className="bg-muted/30 rounded-lg p-3">
-            <h3 className="text-lg font-semibold mb-3">Preview</h3>
-            <ScrollArea className="h-full">
-              <ProjectPreview project={formData} />
-            </ScrollArea>
+          <div className="flex justify-end gap-3 px-6 py-4 border-t bg-background">
+            <Button variant="outline" onClick={onClose}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSave} className="gradient-primary text-white">
+              {isCreating ? 'Criar Projeto' : 'Salvar Alterações'}
+            </Button>
           </div>
-        </div>
-
-        <div className="flex justify-end gap-2 pt-3 border-t">
-          <Button variant="outline" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button onClick={handleSave} className="gradient-primary text-white">
-            {isCreating ? 'Criar Projeto' : 'Salvar Alterações'}
-          </Button>
         </div>
       </DialogContent>
     </Dialog>
