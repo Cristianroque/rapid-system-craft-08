@@ -12,13 +12,15 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const project = projects.find(p => p.id === id);
   const [titleRef, titleVisible] = useScrollAnimation();
+  const [imageRef, imageVisible] = useScrollAnimation();
   const [contentRef, contentVisible] = useScrollAnimation();
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4">Projeto não encontrado</h1>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Header />
+        <div className="text-center pt-24 px-4">
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">Projeto não encontrado</h1>
           <Link to="/projetos">
             <Button className="gradient-primary text-white">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -34,50 +36,40 @@ const ProjectDetail = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <section className="pt-32 pb-20">
-        <div className="container mx-auto px-4 max-w-4xl">
-          {/* Navegação */}
-          <div className="mb-8">
-            <Link to="/projetos">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Button>
-            </Link>
-          </div>
-
+      <section className="pt-24 md:pt-32 pb-16 md:pb-20">
+        <div className="container mx-auto px-4 max-w-5xl">
           {/* Header do Projeto */}
           <div 
             ref={titleRef}
-            className={`mb-8 transition-all duration-1000 ${
+            className={`mb-8 md:mb-12 transition-all duration-1000 ${
               titleVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
             }`}
           >
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <Badge className="gradient-primary text-white">{project.category}</Badge>
+            <div className="flex flex-wrap items-center gap-2 mb-4 md:mb-6">
+              <Badge className="gradient-primary text-white text-sm">{project.category}</Badge>
               {project.tech.slice(0, 4).map((tech, index) => (
-                <Badge key={index} variant="secondary">{tech}</Badge>
+                <Badge key={index} variant="secondary" className="text-sm">{tech}</Badge>
               ))}
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
               {project.title}
             </h1>
             
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">
               {project.fullDescription}
             </p>
 
-            <div className="flex flex-wrap gap-3">
-              <a href={project.repository} target="_blank" rel="noopener noreferrer">
-                <Button className="gradient-primary text-white">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <a href={project.repository} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                <Button className="w-full sm:w-auto gradient-primary text-white">
                   <Github className="w-4 h-4 mr-2" />
                   Repositório
                 </Button>
               </a>
               {project.liveDemo && (
-                <a href={project.liveDemo} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline">
+                <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-none">
+                  <Button variant="outline" className="w-full sm:w-auto">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Demo
                   </Button>
@@ -88,29 +80,34 @@ const ProjectDetail = () => {
 
           {/* Imagem Principal */}
           <div 
-            ref={contentRef}
-            className={`mb-12 transition-all duration-1000 delay-300 ${
-              contentVisible ? 'animate-fade-in' : 'opacity-0 translate-y-10'
+            ref={imageRef}
+            className={`mb-8 md:mb-12 transition-all duration-1000 delay-300 ${
+              imageVisible ? 'animate-fade-in' : 'opacity-0 translate-y-10'
             }`}
           >
             <img 
               src={project.images[0]} 
               alt={project.title}
-              className="w-full h-[300px] md:h-[400px] object-cover rounded-lg shadow-lg"
+              className="w-full h-[250px] md:h-[350px] lg:h-[400px] object-cover rounded-lg shadow-lg"
             />
           </div>
 
           {/* Informações do Projeto */}
-          <div className="space-y-8">
+          <div 
+            ref={contentRef}
+            className={`space-y-6 md:space-y-8 transition-all duration-1000 delay-600 ${
+              contentVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
+            }`}
+          >
             {/* Funcionalidades */}
-            <Card className="animate-fade-in" style={{ animationDelay: '600ms' }}>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gradient">Funcionalidades</h3>
-                <ul className="space-y-2">
+            <Card className="animate-fade-in" style={{ animationDelay: '800ms' }}>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="text-lg md:text-xl font-semibold mb-4 text-gradient">Funcionalidades</h3>
+                <ul className="space-y-3">
                   {project.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-muted-foreground">{feature}</span>
+                      <span className="text-muted-foreground text-sm md:text-base">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -118,11 +115,11 @@ const ProjectDetail = () => {
             </Card>
 
             {/* Desafios e Resultados */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="animate-fade-in" style={{ animationDelay: '800ms' }}>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 text-gradient">Desafios</h3>
-                  <ul className="space-y-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+              <Card className="animate-fade-in" style={{ animationDelay: '1000ms' }}>
+                <CardContent className="p-4 md:p-6">
+                  <h3 className="text-lg md:text-xl font-semibold mb-4 text-gradient">Desafios</h3>
+                  <ul className="space-y-3">
                     {project.challenges.map((challenge, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
@@ -133,10 +130,10 @@ const ProjectDetail = () => {
                 </CardContent>
               </Card>
 
-              <Card className="animate-fade-in" style={{ animationDelay: '1000ms' }}>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 text-gradient">Resultados</h3>
-                  <ul className="space-y-2">
+              <Card className="animate-fade-in" style={{ animationDelay: '1200ms' }}>
+                <CardContent className="p-4 md:p-6">
+                  <h3 className="text-lg md:text-xl font-semibold mb-4 text-gradient">Resultados</h3>
+                  <ul className="space-y-3">
                     {project.results.map((result, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
@@ -150,21 +147,21 @@ const ProjectDetail = () => {
 
             {/* Galeria de Imagens */}
             {project.images.length > 1 && (
-              <div className="mt-12">
-                <h3 className="text-2xl font-semibold mb-6 text-center">
+              <div className="mt-8 md:mt-12">
+                <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6 text-center">
                   Galeria do <span className="text-gradient">Projeto</span>
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                   {project.images.slice(1).map((image, index) => (
                     <div 
                       key={index}
                       className="animate-fade-in hover:scale-105 transition-transform duration-300"
-                      style={{ animationDelay: `${1200 + index * 200}ms` }}
+                      style={{ animationDelay: `${1400 + index * 200}ms` }}
                     >
                       <img 
                         src={image} 
                         alt={`${project.title} - ${index + 2}`}
-                        className="w-full h-48 object-cover rounded-lg shadow-md"
+                        className="w-full h-40 md:h-48 object-cover rounded-lg shadow-md"
                       />
                     </div>
                   ))}
