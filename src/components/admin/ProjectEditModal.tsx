@@ -76,7 +76,6 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
 
   const handleSave = () => {
     console.log('Salvando projeto:', formData);
-    // Aqui você implementaria a lógica de salvar
     onClose();
   };
 
@@ -130,18 +129,18 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-7xl w-full h-[90vh] flex flex-col">
+      <DialogContent className="max-w-6xl w-[95vw] h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>
             {isCreating ? 'Criar Novo Projeto' : 'Editar Projeto'}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0">
           {/* Formulário */}
-          <div className="space-y-4">
-            <ScrollArea className="h-full pr-4">
-              <div className="space-y-4">
+          <div className="space-y-3">
+            <ScrollArea className="h-full pr-2">
+              <div className="space-y-3">
                 <div>
                   <label className="text-sm font-medium">Título</label>
                   <Input
@@ -157,7 +156,7 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
                     value={formData.description}
                     onChange={(e) => handleFormChange('description', e.target.value)}
                     placeholder="Descrição breve do projeto"
-                    rows={3}
+                    rows={2}
                   />
                 </div>
 
@@ -167,7 +166,7 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
                     value={formData.fullDescription}
                     onChange={(e) => handleFormChange('fullDescription', e.target.value)}
                     placeholder="Descrição detalhada do projeto"
-                    rows={4}
+                    rows={3}
                   />
                 </div>
 
@@ -185,13 +184,23 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
                   </Select>
                 </div>
 
-                <div>
-                  <label className="text-sm font-medium">Imagem Principal (URL)</label>
-                  <Input
-                    value={formData.image}
-                    onChange={(e) => handleFormChange('image', e.target.value)}
-                    placeholder="URL da imagem principal"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-sm font-medium">Imagem Principal (URL)</label>
+                    <Input
+                      value={formData.image}
+                      onChange={(e) => handleFormChange('image', e.target.value)}
+                      placeholder="URL da imagem"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Demo ao Vivo (URL)</label>
+                    <Input
+                      value={formData.liveDemo}
+                      onChange={(e) => handleFormChange('liveDemo', e.target.value)}
+                      placeholder="URL da demo"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -203,34 +212,25 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
                   />
                 </div>
 
-                <div>
-                  <label className="text-sm font-medium">Demo ao Vivo (URL)</label>
-                  <Input
-                    value={formData.liveDemo}
-                    onChange={(e) => handleFormChange('liveDemo', e.target.value)}
-                    placeholder="URL da demo (opcional)"
-                  />
-                </div>
-
-                {renderArrayInput('tech', 'Tecnologias', 'Ex: React, Node.js, PostgreSQL')}
+                {renderArrayInput('tech', 'Tecnologias', 'Ex: React, Node.js')}
                 {renderArrayInput('images', 'Imagens Adicionais (URLs)', 'URL da imagem')}
-                {renderArrayInput('features', 'Funcionalidades', 'Ex: Dashboard em tempo real')}
-                {renderArrayInput('challenges', 'Desafios', 'Ex: Processamento de alto volume')}
-                {renderArrayInput('results', 'Resultados', 'Ex: Aumento de 45% na eficiência')}
+                {renderArrayInput('features', 'Funcionalidades', 'Dashboard em tempo real')}
+                {renderArrayInput('challenges', 'Desafios', 'Processamento de alto volume')}
+                {renderArrayInput('results', 'Resultados', 'Aumento de 45% na eficiência')}
               </div>
             </ScrollArea>
           </div>
 
           {/* Preview */}
-          <div className="bg-muted/30 rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-4">Preview</h3>
+          <div className="bg-muted/30 rounded-lg p-3">
+            <h3 className="text-lg font-semibold mb-3">Preview</h3>
             <ScrollArea className="h-full">
               <ProjectPreview project={formData} />
             </ScrollArea>
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-4 border-t">
+        <div className="flex justify-end gap-2 pt-3 border-t">
           <Button variant="outline" onClick={onClose}>
             Cancelar
           </Button>

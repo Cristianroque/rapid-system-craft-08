@@ -124,14 +124,14 @@ const Projects = () => {
 
                     {/* Tecnologias */}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tech.slice(0, 4).map((tech, techIndex) => (
+                      {project.tech.slice(0, 3).map((tech, techIndex) => (
                         <Badge key={techIndex} variant="secondary" className="text-xs font-medium">
                           {tech}
                         </Badge>
                       ))}
-                      {project.tech.length > 4 && (
+                      {project.tech.length > 3 && (
                         <Badge variant="secondary" className="text-xs font-medium">
-                          +{project.tech.length - 4}
+                          +{project.tech.length - 3}
                         </Badge>
                       )}
                     </div>
@@ -139,14 +139,14 @@ const Projects = () => {
                     {/* Features principais */}
                     <div className="mb-4">
                       <h4 className="text-sm font-semibold mb-2 text-gradient">Principais Features:</h4>
-                      <ul className="space-y-1">
-                        {project.features.slice(0, 2).map((feature, index) => (
-                          <li key={index} className="flex items-start gap-2 text-xs text-muted-foreground">
+                      <div className="space-y-1">
+                        {project.features.slice(0, 2).map((feature, idx) => (
+                          <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
                             <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
                             <span className="line-clamp-1">{feature}</span>
-                          </li>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     </div>
 
                     {/* Informações adicionais */}

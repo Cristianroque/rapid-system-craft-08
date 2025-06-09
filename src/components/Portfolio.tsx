@@ -17,7 +17,11 @@ const Portfolio = () => {
       description: "Sistema personalizado para controle de estoque, vendas e logística em tempo real.",
       image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop",
       tech: ["Next.js", "Node.js", "PostgreSQL"],
-      category: "E-commerce"
+      category: "E-commerce",
+      features: [
+        "Dashboard em tempo real com métricas de vendas",
+        "Sistema de gestão de estoque automatizado"
+      ]
     },
     {
       id: "health-startup-site",
@@ -25,7 +29,11 @@ const Portfolio = () => {
       description: "Design e desenvolvimento de site responsivo com SEO avançado e blog integrado.",
       image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop",
       tech: ["React", "TailwindCSS", "Strapi CMS"],
-      category: "Institucional"
+      category: "Institucional",
+      features: [
+        "Design responsivo e moderno",
+        "SEO otimizado para melhor rankeamento"
+      ]
     },
     {
       id: "financial-control-app",
@@ -33,7 +41,11 @@ const Portfolio = () => {
       description: "Solução web segura e rápida para gestão de fluxo de caixa e relatórios financeiros.",
       image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop",
       tech: ["Vue.js", "Laravel", "MySQL"],
-      category: "Financeiro"
+      category: "Financeiro",
+      features: [
+        "Relatórios financeiros detalhados",
+        "Controle de fluxo de caixa em tempo real"
+      ]
     }
   ];
 
@@ -85,12 +97,25 @@ const Portfolio = () => {
                       {project.description}
                     </p>
                     
-                    <div className="flex flex-wrap gap-1.5 mb-4">
+                    <div className="flex flex-wrap gap-1.5 mb-3">
                       {project.tech.slice(0, 3).map((tech, techIndex) => (
                         <Badge key={techIndex} variant="secondary" className="text-xs">
                           {tech}
                         </Badge>
                       ))}
+                    </div>
+
+                    {/* Features principais */}
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold mb-2 text-gradient">Principais Features:</h4>
+                      <div className="space-y-1">
+                        {project.features.map((feature, idx) => (
+                          <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
+                            <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
+                            <span className="line-clamp-1">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
