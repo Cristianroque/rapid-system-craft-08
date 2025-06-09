@@ -104,12 +104,12 @@ const Header = () => {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border">
+            <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
               <nav className="container mx-auto px-4 py-6 space-y-4">
                 {isProjectDetail ? (
                   <button 
                     onClick={handleBackClick} 
-                    className="flex items-center gap-2 text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4 rounded-lg hover:bg-muted"
+                    className="flex items-center gap-2 text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                   >
                     ← Voltar
                   </button>
@@ -117,25 +117,25 @@ const Header = () => {
                   <>
                     <button 
                       onClick={() => scrollToSection('sobre')} 
-                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4 rounded-lg hover:bg-muted"
+                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Sobre
                     </button>
                     <button 
                       onClick={() => scrollToSection('servicos')} 
-                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4 rounded-lg hover:bg-muted"
+                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Serviços
                     </button>
                     <button 
                       onClick={handlePortfolioClick} 
-                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4 rounded-lg hover:bg-muted"
+                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Portfólio
                     </button>
                     <button 
                       onClick={() => scrollToSection('depoimentos')} 
-                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-2 px-4 rounded-lg hover:bg-muted"
+                      className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Depoimentos
                     </button>

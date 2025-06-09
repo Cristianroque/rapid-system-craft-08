@@ -53,7 +53,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@devstudio.com"
+                  placeholder="Digite seu email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
@@ -68,7 +68,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="••••••••"
+                  placeholder="Digite sua senha"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10"
@@ -84,11 +84,6 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
               {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
-          <div className="mt-4 p-3 bg-muted/50 rounded-lg text-sm text-muted-foreground">
-            <p><strong>Demo:</strong></p>
-            <p>Email: admin@devstudio.com</p>
-            <p>Senha: admin123</p>
-          </div>
         </CardContent>
       </Card>
     </div>
