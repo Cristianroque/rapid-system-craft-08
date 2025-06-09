@@ -234,33 +234,6 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
       </DialogContent>
     </Dialog>
   );
-
-  const handleSendResponse = (type = 'custom') => {
-    if (!message || !responseText.trim()) return;
-
-    onSendResponse?.(message.id, responseText, type);
-    setResponseText('');
-    setSelectedQuickResponse('');
-    setEmailSubject('');
-    setRecipientName('');
-  };
-
-  const handleQuickResponse = () => {
-    if (selectedQuickResponse) {
-      setResponseText(selectedQuickResponse);
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      new: { variant: 'default' as const, text: 'Nova' },
-      responded: { variant: 'secondary' as const, text: 'Respondida' },
-      archived: { variant: 'outline' as const, text: 'Arquivada' }
-    };
-    
-    const config = variants[status] || variants.new;
-    return <Badge variant={config.variant}>{config.text}</Badge>;
-  };
 };
 
 export default MessageModal;
