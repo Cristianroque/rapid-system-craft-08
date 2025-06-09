@@ -142,24 +142,25 @@ const ProjectDetail = () => {
 
           {/* Three Sections in Boxes */}
           <section className="mb-12">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Features Box */}
               {project.features && project.features.length > 0 && (
-                <Card className="group hover:shadow-lg transition-all duration-300">
+                <Card className="group hover:shadow-lg transition-all duration-300 h-full">
                   <CardHeader className="text-center pb-4">
                     <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
                       <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
                     </div>
-                    <CardTitle className="text-xl text-gradient">Funcionalidades</CardTitle>
+                    <CardTitle className="text-lg text-gradient">Funcionalidades</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
+                  <CardContent className="space-y-2">
                     {project.features.slice(0, 3).map((feature, index) => (
-                      <div key={index} className="text-sm text-muted-foreground">
-                        • {feature.length > 50 ? `${feature.substring(0, 50)}...` : feature}
+                      <div key={index} className="text-sm text-muted-foreground flex items-start">
+                        <span className="text-green-500 mr-2 mt-1">•</span>
+                        <span>{feature.length > 45 ? `${feature.substring(0, 45)}...` : feature}</span>
                       </div>
                     ))}
                     {project.features.length > 3 && (
-                      <div className="text-xs text-muted-foreground/70 mt-2">
+                      <div className="text-xs text-muted-foreground/70 mt-3 text-center">
                         +{project.features.length - 3} funcionalidades
                       </div>
                     )}
@@ -169,21 +170,22 @@ const ProjectDetail = () => {
 
               {/* Challenges Box */}
               {project.challenges && project.challenges.length > 0 && (
-                <Card className="group hover:shadow-lg transition-all duration-300">
+                <Card className="group hover:shadow-lg transition-all duration-300 h-full">
                   <CardHeader className="text-center pb-4">
                     <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center">
                       <AlertTriangle className="w-6 h-6 text-orange-600 dark:text-orange-400" />
                     </div>
-                    <CardTitle className="text-xl text-gradient">Desafios</CardTitle>
+                    <CardTitle className="text-lg text-gradient">Desafios</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
+                  <CardContent className="space-y-2">
                     {project.challenges.slice(0, 3).map((challenge, index) => (
-                      <div key={index} className="text-sm text-muted-foreground">
-                        • {challenge.length > 50 ? `${challenge.substring(0, 50)}...` : challenge}
+                      <div key={index} className="text-sm text-muted-foreground flex items-start">
+                        <span className="text-orange-500 mr-2 mt-1">•</span>
+                        <span>{challenge.length > 45 ? `${challenge.substring(0, 45)}...` : challenge}</span>
                       </div>
                     ))}
                     {project.challenges.length > 3 && (
-                      <div className="text-xs text-muted-foreground/70 mt-2">
+                      <div className="text-xs text-muted-foreground/70 mt-3 text-center">
                         +{project.challenges.length - 3} desafios
                       </div>
                     )}
@@ -193,21 +195,22 @@ const ProjectDetail = () => {
 
               {/* Results Box */}
               {project.results && project.results.length > 0 && (
-                <Card className="group hover:shadow-lg transition-all duration-300">
+                <Card className="group hover:shadow-lg transition-all duration-300 h-full">
                   <CardHeader className="text-center pb-4">
                     <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center">
                       <Target className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
-                    <CardTitle className="text-xl text-gradient">Resultados</CardTitle>
+                    <CardTitle className="text-lg text-gradient">Resultados</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-3">
+                  <CardContent className="space-y-2">
                     {project.results.slice(0, 3).map((result, index) => (
-                      <div key={index} className="text-sm text-muted-foreground">
-                        • {result.length > 50 ? `${result.substring(0, 50)}...` : result}
+                      <div key={index} className="text-sm text-muted-foreground flex items-start">
+                        <span className="text-blue-500 mr-2 mt-1">•</span>
+                        <span>{result.length > 45 ? `${result.substring(0, 45)}...` : result}</span>
                       </div>
                     ))}
                     {project.results.length > 3 && (
-                      <div className="text-xs text-muted-foreground/70 mt-2">
+                      <div className="text-xs text-muted-foreground/70 mt-3 text-center">
                         +{project.results.length - 3} resultados
                       </div>
                     )}
