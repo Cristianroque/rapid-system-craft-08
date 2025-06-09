@@ -17,10 +17,8 @@ const ProjectDetail = () => {
 
   console.log('ProjectDetail - ID from URL:', id);
   console.log('ProjectDetail - All projects:', projects);
-  console.log('ProjectDetail - Loading:', loading);
-  console.log('ProjectDetail - Error:', error);
 
-  // Encontrar o projeto pelo ID (convertendo para string se necessário)
+  // Encontrar o projeto pelo ID
   const project = projects.find(p => String(p.id) === String(id));
   
   console.log('ProjectDetail - Found project:', project);
@@ -29,7 +27,7 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen pt-20">
           <div className="flex items-center">
             <Loader2 className="w-8 h-8 animate-spin mr-2" />
             <span>Carregando projeto...</span>
@@ -43,7 +41,7 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen pt-20">
           <div className="text-center px-4">
             <h1 className="text-2xl md:text-3xl font-bold mb-4">Erro ao carregar projeto</h1>
             <p className="text-muted-foreground mb-4">{error}</p>
@@ -63,20 +61,12 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen pt-20">
           <div className="text-center px-4">
             <h1 className="text-2xl md:text-3xl font-bold mb-4">Projeto não encontrado</h1>
             <p className="text-muted-foreground mb-4">
-              O projeto com ID "{id}" não foi encontrado. Talvez ele tenha sido removido ou o link está incorreto.
+              O projeto solicitado não foi encontrado.
             </p>
-            <div className="space-y-2 mb-4">
-              <p className="text-sm text-muted-foreground">Debug info:</p>
-              <p className="text-xs text-muted-foreground">ID buscado: {id}</p>
-              <p className="text-xs text-muted-foreground">Projetos disponíveis: {projects.length}</p>
-              <p className="text-xs text-muted-foreground">
-                IDs dos projetos: {projects.map(p => p.id).join(', ')}
-              </p>
-            </div>
             <Link to="/projetos">
               <Button className="gradient-primary text-white">
                 <ArrowLeft className="w-4 h-4 mr-2" />

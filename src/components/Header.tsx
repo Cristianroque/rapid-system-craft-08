@@ -8,14 +8,7 @@ import { Menu, X } from 'lucide-react';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [lastProjectsRoute, setLastProjectsRoute] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    if (location.pathname === '/projetos') {
-      setLastProjectsRoute(true);
-    }
-  }, [location.pathname]);
 
   const scrollToSection = (sectionId: string) => {
     if (location.pathname !== '/') {
@@ -40,11 +33,7 @@ const Header = () => {
   };
 
   const handleBackClick = () => {
-    if (lastProjectsRoute && location.pathname.includes('/projetos/')) {
-      window.location.href = '/projetos';
-    } else {
-      window.location.href = '/';
-    }
+    window.location.href = '/';
     setIsMenuOpen(false);
   };
 
@@ -54,6 +43,7 @@ const Header = () => {
   };
 
   const isProjectDetail = location.pathname.includes('/projetos/') && location.pathname !== '/projetos';
+  const isProjectsPage = location.pathname === '/projetos';
 
   return (
     <>
@@ -65,7 +55,7 @@ const Header = () => {
             </Link>
             
             <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-              {isProjectDetail ? (
+              {isProjectDetail || isProjectsPage ? (
                 <button onClick={handleBackClick} className="text-foreground hover:text-primary transition-colors">
                   ← Voltar
                 </button>
@@ -106,7 +96,7 @@ const Header = () => {
           {isMenuOpen && (
             <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
               <nav className="container mx-auto px-4 py-6 space-y-4">
-                {isProjectDetail ? (
+                {isProjectDetail || isProjectsPage ? (
                   <button 
                     onClick={handleBackClick} 
                     className="flex items-center gap-2 text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"

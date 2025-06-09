@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Label } from '@/components/ui/label';
 import { User, Calendar, Mail, Phone, Building, MessageSquare } from 'lucide-react';
 
 const quickResponses = [
@@ -26,6 +28,16 @@ interface MessageModalProps {
 const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModalProps) => {
   const [responseText, setResponseText] = useState('');
   const [selectedQuickResponse, setSelectedQuickResponse] = useState('');
+  const [emailSubject, setEmailSubject] = useState('');
+  const [recipientName, setRecipientName] = useState('');
+
+  // Pré-preencher campos quando o modal abrir
+  useState(() => {
+    if (message) {
+      setEmailSubject(`Resposta sobre: ${message.message.substring(0, 50)}...`);
+      setRecipientName(message.name);
+    }
+  }, [message]);
 
   const handleSendResponse = (type = 'custom') => {
     if (!message || !responseText.trim()) return;
@@ -33,6 +45,8 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
     onSendResponse?.(message.id, responseText, type);
     setResponseText('');
     setSelectedQuickResponse('');
+    setEmailSubject('');
+    setRecipientName('');
   };
 
   const handleQuickResponse = () => {
@@ -128,6 +142,31 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
                 </div>
               )}
 
+              {/* Configurações do Email */}
+              <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
+                <h3 className="font-semibold">Configurações do Email:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="recipientName">Nome do Destinatário:</Label>
+                    <Input
+                      id="recipientName"
+                      value={recipientName || message.name}
+                      onChange={(e) => setRecipientName(e.target.value)}
+                      placeholder="Nome do destinatário"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="emailSubject">Assunto do Email:</Label>
+                    <Input
+                      id="emailSubject"
+                      value={emailSubject || `Resposta sobre: ${message.message.substring(0, 50)}...`}
+                      onChange={(e) => setEmailSubject(e.target.value)}
+                      placeholder="Assunto do email"
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Resposta Rápida */}
               <div className="space-y-3">
                 <h3 className="font-semibold">Resposta Rápida:</h3>
@@ -189,7 +228,7 @@ const MessageModal = ({ isOpen, onClose, message, onSendResponse }: MessageModal
             onClick={() => handleSendResponse('custom')}
             disabled={!responseText.trim()}
           >
-            Enviar Resposta
+            Enviar Resposta por Email
           </Button>
         </div>
       </DialogContent>
