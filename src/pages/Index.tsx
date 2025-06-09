@@ -7,7 +7,6 @@ import Portfolio from '@/components/Portfolio';
 import Testimonials from '@/components/Testimonials';
 import Process from '@/components/Process';
 import CTA from '@/components/CTA';
-import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -21,7 +20,6 @@ const Index = () => {
       <Testimonials />
       <Process />
       <CTA />
-      <Contact />
       <Footer />
     </div>
   );

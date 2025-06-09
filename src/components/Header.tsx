@@ -1,11 +1,18 @@
 
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== '/') {
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -17,9 +24,9 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold text-gradient">
+          <Link to="/" className="text-2xl font-bold text-gradient">
             DevStudio
-          </div>
+          </Link>
           
           <nav className="hidden md:flex items-center space-x-8">
             <button onClick={() => scrollToSection('sobre')} className="text-foreground hover:text-primary transition-colors">
@@ -28,9 +35,9 @@ const Header = () => {
             <button onClick={() => scrollToSection('servicos')} className="text-foreground hover:text-primary transition-colors">
               Serviços
             </button>
-            <button onClick={() => scrollToSection('portfolio')} className="text-foreground hover:text-primary transition-colors">
+            <Link to="/projetos" className="text-foreground hover:text-primary transition-colors">
               Portfólio
-            </button>
+            </Link>
             <button onClick={() => scrollToSection('depoimentos')} className="text-foreground hover:text-primary transition-colors">
               Depoimentos
             </button>
@@ -59,9 +66,9 @@ const Header = () => {
             <button onClick={() => scrollToSection('servicos')} className="block text-foreground hover:text-primary transition-colors">
               Serviços
             </button>
-            <button onClick={() => scrollToSection('portfolio')} className="block text-foreground hover:text-primary transition-colors">
+            <Link to="/projetos" className="block text-foreground hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>
               Portfólio
-            </button>
+            </Link>
             <button onClick={() => scrollToSection('depoimentos')} className="block text-foreground hover:text-primary transition-colors">
               Depoimentos
             </button>
