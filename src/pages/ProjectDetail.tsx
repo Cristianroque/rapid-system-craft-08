@@ -1,6 +1,6 @@
 
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Github, Loader2, CheckCircle, AlertTriangle, Target, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Github, Loader2, CheckCircle, AlertTriangle, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,7 +82,7 @@ const ProjectDetail = () => {
       <Header />
       
       <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 max-w-5xl">
+        <div className="container mx-auto px-4 max-w-6xl">
           {/* Back Button */}
           <div className="mb-8">
             <Link to="/projetos">
@@ -141,112 +141,109 @@ const ProjectDetail = () => {
             </div>
           </section>
 
-          {/* Features */}
-          {project.features && project.features.length > 0 && (
-            <section className="mb-12">
-              <h3 className="text-2xl font-semibold mb-6 text-center text-foreground">
-                <span className="text-gradient">Funcionalidades</span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {project.features.map((feature, index) => (
-                  <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-full bg-primary/10">
-                          <CheckCircle className="w-5 h-5 text-primary" />
-                        </div>
-                        <CardTitle className="text-lg">Recurso {index + 1}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">{feature}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Challenges and Results */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Challenges */}
-            {project.challenges && project.challenges.length > 0 && (
-              <div>
-                <h3 className="text-2xl font-semibold mb-6 text-center text-foreground">
-                  <span className="text-gradient">Desafios</span>
-                </h3>
-                <div className="space-y-4">
-                  {project.challenges.map((challenge, index) => (
-                    <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-3">
-                          <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/20 flex-shrink-0">
-                            <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+          {/* Three Sections in One Row */}
+          <section className="mb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Features */}
+              {project.features && project.features.length > 0 && (
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-semibold text-center text-foreground">
+                    <span className="text-gradient">Funcionalidades</span>
+                  </h3>
+                  <div className="space-y-4">
+                    {project.features.map((feature, index) => (
+                      <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/20 flex-shrink-0">
+                              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                            </div>
+                            <div>
+                              <p className="text-muted-foreground text-sm">{feature}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h4 className="font-semibold mb-2 text-foreground">Desafio {index + 1}</h4>
-                            <p className="text-muted-foreground text-sm">{challenge}</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Results */}
-            {project.results && project.results.length > 0 && (
-              <div>
-                <h3 className="text-2xl font-semibold mb-6 text-center text-foreground">
-                  <span className="text-gradient">Resultados</span>
-                </h3>
-                <div className="space-y-4">
-                  {project.results.map((result, index) => (
-                    <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-3">
-                          <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/20 flex-shrink-0">
-                            <Target className="w-5 h-5 text-green-600 dark:text-green-400" />
+              {/* Challenges */}
+              {project.challenges && project.challenges.length > 0 && (
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-semibold text-center text-foreground">
+                    <span className="text-gradient">Desafios</span>
+                  </h3>
+                  <div className="space-y-4">
+                    {project.challenges.map((challenge, index) => (
+                      <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/20 flex-shrink-0">
+                              <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                            </div>
+                            <div>
+                              <p className="text-muted-foreground text-sm">{challenge}</p>
+                            </div>
                           </div>
-                          <div>
-                            <h4 className="font-semibold mb-2 text-foreground">Resultado {index + 1}</h4>
-                            <p className="text-muted-foreground text-sm">{result}</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+
+              {/* Results */}
+              {project.results && project.results.length > 0 && (
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-semibold text-center text-foreground">
+                    <span className="text-gradient">Resultados</span>
+                  </h3>
+                  <div className="space-y-4">
+                    {project.results.map((result, index) => (
+                      <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:scale-105">
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/20 flex-shrink-0">
+                              <Target className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                              <p className="text-muted-foreground text-sm">{result}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
 
           {/* Project Gallery Carousel */}
           {project.images && project.images.length > 0 && (
-            <section className="mt-12">
-              <h3 className="text-2xl font-semibold mb-6 text-center text-foreground">
+            <section className="mb-12">
+              <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">
                 Galeria do <span className="text-gradient">Projeto</span>
               </h3>
-              <div className="relative max-w-4xl mx-auto">
-                <Carousel className="w-full">
-                  <CarouselContent>
+              <div className="w-full">
+                <Carousel className="w-full" opts={{ align: "start" }}>
+                  <CarouselContent className="-ml-2 md:-ml-4">
                     {project.images.map((image, index) => (
-                      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/2">
-                        <div className="p-1">
-                          <Card className="overflow-hidden group">
-                            <CardContent className="p-0">
-                              <div className="relative overflow-hidden">
-                                <img 
-                                  src={image} 
-                                  alt={`${project.title} - ${index + 1}`}
-                                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </div>
+                      <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                        <Card className="overflow-hidden group">
+                          <CardContent className="p-0">
+                            <div className="relative overflow-hidden">
+                              <img 
+                                src={image} 
+                                alt={`${project.title} - ${index + 1}`}
+                                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                              />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                            </div>
+                          </CardContent>
+                        </Card>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
