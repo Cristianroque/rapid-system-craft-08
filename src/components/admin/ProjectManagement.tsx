@@ -3,17 +3,18 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Edit, Plus, Loader2 } from 'lucide-react';
+import { Trash2, Edit, Plus, Loader2, RefreshCw } from 'lucide-react';
 import { useProjects } from '@/hooks/useProjects';
 import ProjectEditModal from './ProjectEditModal';
 import { toast } from 'sonner';
 
 const ProjectManagement = () => {
-  const { projects, loading, createProject, updateProject, deleteProject } = useProjects();
+  const { projects, loading, createProject, updateProject, deleteProject, fetchProjects } = useProjects();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isCreating, setIsCreating] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleCreateNew = () => {
     setSelectedProject(null);
@@ -42,6 +43,19 @@ const ProjectManagement = () => {
     }
   };
 
+  const handleRefresh = async () => {
+    try {
+      setRefreshing(true);
+      await fetchProjects();
+      toast.success('Lista de projetos atualizada!');
+    } catch (error) {
+      toast.error('Erro ao atualizar lista');
+      console.error('Erro:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProject(null);
@@ -51,16 +65,18 @@ const ProjectManagement = () => {
   const handleSaveProject = async (projectData: any) => {
     try {
       if (isCreating) {
+        console.log('Creating new project with data:', projectData);
         await createProject(projectData);
         toast.success('Projeto criado com sucesso!');
       } else if (selectedProject) {
+        console.log('Updating project with data:', projectData);
         await updateProject(selectedProject.id, projectData);
         toast.success('Projeto atualizado com sucesso!');
       }
       handleCloseModal();
     } catch (error) {
+      console.error('Error saving project:', error);
       toast.error(isCreating ? 'Erro ao criar projeto' : 'Erro ao atualizar projeto');
-      console.error('Erro:', error);
     }
   };
 
@@ -78,10 +94,21 @@ const ProjectManagement = () => {
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold">Projetos ({projects.length})</h3>
-          <Button onClick={handleCreateNew} className="gradient-primary text-white">
-            <Plus className="w-4 h-4 mr-2" />
-            Novo Projeto
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="gap-2"
+            >
+              <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+              Atualizar
+            </Button>
+            <Button onClick={handleCreateNew} className="gradient-primary text-white">
+              <Plus className="w-4 h-4 mr-2" />
+              Novo Projeto
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-3 max-h-[600px] overflow-y-auto">
