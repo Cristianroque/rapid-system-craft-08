@@ -119,25 +119,12 @@ const Projects = () => {
                       {project.description}
                     </p>
                     
-                    <div className="flex flex-wrap gap-1.5 mb-3">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
                       {project.tech.slice(0, 3).map((tech, techIndex) => (
                         <Badge key={techIndex} variant="secondary" className="text-xs">
                           {tech}
                         </Badge>
                       ))}
-                    </div>
-
-                    {/* Features principais */}
-                    <div className="mb-4">
-                      <h4 className="text-sm font-semibold mb-2 text-gradient">Principais Features:</h4>
-                      <div className="space-y-1">
-                        {project.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-2 text-xs text-muted-foreground">
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full mt-1.5 flex-shrink-0"></div>
-                            <span className="line-clamp-1">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
                     </div>
 
                     <div className="flex items-center justify-between text-xs text-muted-foreground">

@@ -129,7 +129,7 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-7xl w-[95vw] h-[85vh] p-0">
+      <DialogContent className="max-w-5xl w-[90vw] h-[80vh] p-0">
         <div className="flex flex-col h-full">
           <DialogHeader className="px-6 py-4 border-b">
             <DialogTitle>
@@ -141,7 +141,7 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
             {/* Formulário */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Informações do Projeto</h3>
-              <ScrollArea className="h-[calc(85vh-180px)]">
+              <ScrollArea className="h-[calc(80vh-180px)]">
                 <div className="space-y-4 pr-4">
                   <div>
                     <label className="text-sm font-medium">Título</label>
@@ -226,7 +226,7 @@ const ProjectEditModal = ({ isOpen, onClose, project, isCreating = false }: Proj
             {/* Preview */}
             <div className="bg-muted/30 rounded-lg p-4">
               <h3 className="text-lg font-semibold mb-4">Preview</h3>
-              <ScrollArea className="h-[calc(85vh-180px)]">
+              <ScrollArea className="h-[calc(80vh-180px)]">
                 <ProjectPreview project={formData} />
               </ScrollArea>
             </div>

@@ -64,15 +64,45 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* Elementos decorativos mais sutis */}
-        <div className="absolute top-20 left-10 md:left-20 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-r from-primary/10 to-primary/5 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 md:right-20 w-32 h-32 md:w-48 md:h-48 bg-gradient-to-r from-primary/5 to-primary/10 rounded-full blur-xl animate-pulse delay-1000"></div>
+        {/* Animação de fundo mais suave e profissional */}
+        <div className="absolute inset-0 -z-10">
+          {/* Gradiente animado */}
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-pulse"></div>
+          
+          {/* Círculos flutuantes */}
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-primary/20 to-transparent rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite]"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-accent/15 to-transparent rounded-full blur-3xl animate-[float_8s_ease-in-out_infinite_reverse]"></div>
+          <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-2xl animate-[float_7s_ease-in-out_infinite]"></div>
+          
+          {/* Linhas geométricas sutis */}
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-[slideRight_12s_linear_infinite]"></div>
+          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent animate-[slideLeft_10s_linear_infinite]"></div>
+        </div>
       </section>
 
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 
       />
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-20px) scale(1.1); }
+        }
+        
+        @keyframes slideRight {
+          0% { transform: translateX(-100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @keyframes slideLeft {
+          0% { transform: translateX(100%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(-100%); opacity: 0; }
+        }
+      `}</style>
     </>
   );
 };
