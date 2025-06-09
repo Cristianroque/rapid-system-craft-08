@@ -21,9 +21,13 @@ export const useMessages = () => {
 
       if (error) throw error;
       
-      const messagesWithResponses = data?.map(msg => ({
+      const messagesWithResponses: Message[] = data?.map(msg => ({
         ...msg,
-        responses: msg.message_responses || []
+        status: msg.status as Message['status'],
+        responses: (msg.message_responses || []).map((response: any) => ({
+          ...response,
+          response_type: response.response_type as MessageResponse['response_type']
+        }))
       })) || [];
       
       setMessages(messagesWithResponses);
@@ -43,8 +47,9 @@ export const useMessages = () => {
         .single();
 
       if (error) throw error;
-      setMessages(prev => [{ ...data, responses: [] }, ...prev]);
-      return data;
+      const newMessage: Message = { ...data, status: data.status as Message['status'], responses: [] };
+      setMessages(prev => [newMessage, ...prev]);
+      return newMessage;
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Erro ao criar mensagem');
     }
@@ -87,17 +92,22 @@ export const useMessages = () => {
       await updateMessageStatus(messageId, 'responded');
 
       // Atualizar a lista de mensagens localmente
+      const typedResponse: MessageResponse = {
+        ...data,
+        response_type: data.response_type as MessageResponse['response_type']
+      };
+
       setMessages(prev => prev.map(msg => 
         msg.id === messageId 
           ? { 
               ...msg, 
               status: 'responded' as const,
-              responses: [...(msg.responses || []), data]
+              responses: [...(msg.responses || []), typedResponse]
             }
           : msg
       ));
 
-      return data;
+      return typedResponse;
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Erro ao adicionar resposta');
     }
