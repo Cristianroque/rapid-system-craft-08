@@ -12,11 +12,8 @@ const Portfolio = () => {
   const { projects, loading, error } = useProjects();
   const [filter, setFilter] = useState('all');
 
-  const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))];
-  
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === filter);
+  // Limitar a apenas 3 projetos na página inicial
+  const displayProjects = projects.slice(0, 3);
 
   if (loading) {
     return (
@@ -103,29 +100,9 @@ const Portfolio = () => {
           </motion.p>
         </div>
 
-        {/* Filter buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={filter === category ? "default" : "outline"}
-              onClick={() => setFilter(category)}
-              className={filter === category ? "gradient-primary text-white" : ""}
-            >
-              {category === 'all' ? 'Todos' : category}
-            </Button>
-          ))}
-        </motion.div>
-
-        {/* Projects grid */}
+        {/* Projects grid - apenas 3 projetos */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
+          {displayProjects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
@@ -133,7 +110,7 @@ const Portfolio = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
+              <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105 h-full flex flex-col">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <img
                     src={project.image}
@@ -162,14 +139,14 @@ const Portfolio = () => {
                     </div>
                   </div>
                 </div>
-                <CardContent className="p-6">
+                <CardContent className="p-6 flex-grow flex flex-col">
                   <div className="flex items-center gap-2 mb-2">
                     <Badge variant="secondary">{project.category}</Badge>
                   </div>
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
+                  <p className="text-muted-foreground mb-4 line-clamp-3 flex-grow">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -184,8 +161,8 @@ const Portfolio = () => {
                       </Badge>
                     )}
                   </div>
-                  <Button asChild className="w-full gradient-primary text-white">
-                    <Link to={`/projects/${project.id}`}>
+                  <Button asChild className="w-full gradient-primary text-white mt-auto">
+                    <Link to={`/projetos/${project.id}`}>
                       Ver Detalhes
                     </Link>
                   </Button>
@@ -195,18 +172,6 @@ const Portfolio = () => {
           ))}
         </div>
 
-        {filteredProjects.length === 0 && filter !== 'all' && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
-          >
-            <p className="text-muted-foreground">
-              Nenhum projeto encontrado para a categoria "{filter}".
-            </p>
-          </motion.div>
-        )}
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -215,7 +180,7 @@ const Portfolio = () => {
           className="text-center mt-12"
         >
           <Button asChild size="lg" className="gradient-primary text-white">
-            <Link to="/projects">
+            <Link to="/projetos">
               Ver Todos os Projetos
             </Link>
           </Button>

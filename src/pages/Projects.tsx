@@ -99,13 +99,13 @@ const Projects = () => {
             </div>
           )}
 
-          {/* Grid de Projetos */}
+          {/* Grid de Projetos - Cards com altura uniforme */}
           {!loading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-7xl mx-auto">
               {filteredProjects.map((project, index) => (
                 <Link key={project.id} to={`/projetos/${project.id}`}>
                   <Card 
-                    className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full"
+                    className="group hover:scale-[1.02] transition-all duration-300 hover:shadow-xl overflow-hidden border-0 animate-fade-in cursor-pointer h-full flex flex-col"
                     style={{ animationDelay: `${index * 200}ms` }}
                   >
                     <div className="relative overflow-hidden">
@@ -121,14 +121,14 @@ const Projects = () => {
                     </div>
                     
                     <CardContent className="p-4 md:p-5 flex flex-col flex-grow">
-                      <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      <h3 className="text-lg md:text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2 min-h-[3.5rem]">
                         {project.title}
                       </h3>
-                      <p className="text-muted-foreground mb-3 leading-relaxed text-sm line-clamp-3 flex-grow">
+                      <p className="text-muted-foreground mb-3 leading-relaxed text-sm line-clamp-3 flex-grow min-h-[4.5rem]">
                         {project.description}
                       </p>
                       
-                      <div className="flex flex-wrap gap-1.5 mb-4">
+                      <div className="flex flex-wrap gap-1.5 mb-4 min-h-[2rem]">
                         {project.tech.slice(0, 3).map((tech, techIndex) => (
                           <Badge key={techIndex} variant="secondary" className="text-xs">
                             {tech}
@@ -136,7 +136,7 @@ const Projects = () => {
                         ))}
                       </div>
 
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mt-auto">
                         <span>Ver detalhes</span>
                         <div className="flex gap-1">
                           <Github className="w-3 h-3" />
