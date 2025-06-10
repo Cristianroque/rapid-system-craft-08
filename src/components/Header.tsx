@@ -72,6 +72,14 @@ const Header = () => {
     return 'hover:text-primary';
   };
 
+  // Mobile menu icon color - theme responsive except when transparent on home page
+  const getMobileIconColor = () => {
+    if (isHomePage && !isScrolled) {
+      return 'text-white';
+    }
+    return 'text-foreground';
+  };
+
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -121,9 +129,9 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? (
-                  <X className={`w-6 h-6 ${getTextColor()}`} />
+                  <X className={`w-6 h-6 ${getMobileIconColor()}`} />
                 ) : (
-                  <Menu className={`w-6 h-6 ${getTextColor()}`} />
+                  <Menu className={`w-6 h-6 ${getMobileIconColor()}`} />
                 )}
               </button>
             </div>

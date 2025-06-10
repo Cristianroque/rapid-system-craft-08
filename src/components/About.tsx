@@ -41,7 +41,7 @@ const About = () => {
               </p>
             </div>
             
-            <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-8 border border-primary/20">
+            <div className="p-8 border border-muted-foreground/20 rounded-2xl">
               <p className="text-2xl md:text-3xl font-semibold text-gradient mb-6">
                 Somos a ponte entre seu problema e a solução tecnológica ideal.
               </p>
