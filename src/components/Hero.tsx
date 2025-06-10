@@ -44,20 +44,15 @@ const Hero = () => {
     setIsContactModalOpen(true);
   };
 
-  // Different images for light and dark themes
-  const backgroundImage = theme === 'dark' 
-    ? 'https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'
-    : 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80';
-
   return (
     <>
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Background Image with Smooth Transitions */}
+        {/* Background Image with 70% Opacity */}
         <div className="absolute inset-0 -z-10">
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70 transition-all duration-700 ease-in-out"
             style={{
-              backgroundImage: `url('${backgroundImage}')`
+              backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`
             }}
           />
           
