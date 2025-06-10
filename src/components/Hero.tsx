@@ -21,7 +21,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentEmojiIndex((prevIndex) => (prevIndex + 1) % techEmojis.length);
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -77,7 +77,7 @@ const Hero = () => {
               <span className="text-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 impressionam
               </span>{' '}
-              <span className="inline-block transition-all duration-500 ease-in-out transform">
+              <span className="inline-block text-2xl md:text-3xl lg:text-4xl transition-all duration-1000 ease-out opacity-90">
                 {techEmojis[currentEmojiIndex]}
               </span>
             </h1>
@@ -104,10 +104,9 @@ const Hero = () => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
           <button
             onClick={scrollToNext}
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300 animate-bounce cursor-pointer"
+            className="text-muted-foreground hover:text-primary transition-all duration-300 cursor-pointer"
           >
-            <span className="text-sm font-medium">Role para baixo</span>
-            <ArrowDown className="w-5 h-5" />
+            <ArrowDown className="w-6 h-6" />
           </button>
         </div>
       </section>
