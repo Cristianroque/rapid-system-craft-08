@@ -4,18 +4,37 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ContactModal from '@/components/ContactModal';
 import { useTheme } from '@/hooks/useTheme';
+import { ArrowDown } from 'lucide-react';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [currentEmojiIndex, setCurrentEmojiIndex] = useState(0);
   const { theme } = useTheme();
+
+  const techEmojis = ['💻', '🚀', '⚡', '🔧', '💡', '🎯', '📱', '🌐'];
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentEmojiIndex((prevIndex) => (prevIndex + 1) % techEmojis.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToPortfolio = () => {
     const element = document.getElementById('portfolio');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToNext = () => {
+    const element = document.getElementById('sobre');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -57,6 +76,9 @@ const Hero = () => {
               Soluções digitais que{' '}
               <span className="text-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 impressionam
+              </span>{' '}
+              <span className="inline-block transition-all duration-500 ease-in-out transform">
+                {techEmojis[currentEmojiIndex]}
               </span>
             </h1>
             
@@ -77,12 +99,16 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        
-        {/* Floating animation elements */}
-        <div className="absolute inset-0 -z-5 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-primary/10 to-transparent rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite] transition-colors duration-700"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-l from-accent/8 to-transparent rounded-full blur-3xl animate-[float_8s_ease-in-out_infinite_reverse] transition-colors duration-700"></div>
-          <div className="absolute top-1/2 right-1/3 w-48 h-48 bg-gradient-to-br from-primary/8 to-accent/8 rounded-full blur-2xl animate-[float_7s_ease-in-out_infinite] transition-colors duration-700"></div>
+
+        {/* Scroll down arrow */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+          <button
+            onClick={scrollToNext}
+            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300 animate-bounce cursor-pointer"
+          >
+            <span className="text-sm font-medium">Role para baixo</span>
+            <ArrowDown className="w-5 h-5" />
+          </button>
         </div>
       </section>
 
