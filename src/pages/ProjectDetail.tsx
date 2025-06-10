@@ -220,7 +220,7 @@ const ProjectDetail = () => {
             </div>
           </section>
 
-          {/* Project Gallery Carousel */}
+          {/* Project Gallery Carousel with increased image width */}
           {project.images && project.images.length > 0 && (
             <section className="mb-12">
               <h3 className="text-2xl font-semibold mb-8 text-center text-foreground">
@@ -230,14 +230,14 @@ const ProjectDetail = () => {
                 <Carousel className="w-full" opts={{ align: "start" }}>
                   <CarouselContent className="-ml-2 md:-ml-4">
                     {project.images.map((image, index) => (
-                      <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                      <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-3/4 lg:basis-1/2">
                         <Card className="overflow-hidden group">
                           <CardContent className="p-0">
                             <div className="relative overflow-hidden">
                               <img 
                                 src={image} 
                                 alt={`${project.title} - ${index + 1}`}
-                                className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                                className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
                               />
                               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                             </div>
