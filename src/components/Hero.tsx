@@ -36,7 +36,7 @@ const Hero = () => {
   const scrollToNext = () => {
     const element = document.getElementById('sobre');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -47,11 +47,17 @@ const Hero = () => {
   return (
     <>
       <section 
-        className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center bg-no-repeat md:bg-cover bg-background"
         style={{
-          backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`
+          backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
         }}
       >
+        {/* Dark overlay for better text visibility - only on desktop */}
+        <div className="absolute inset-0 bg-black/40 z-0 hidden md:block"></div>
+
         <div className="container mx-auto px-4 py-16 md:py-20 text-center relative z-20">
           <div className={`max-w-4xl mx-auto transition-all duration-1200 ${
             isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
@@ -97,7 +103,8 @@ const Hero = () => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
           <button
             onClick={scrollToNext}
-            className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer"
+            className="text-foreground/80 hover:text-primary transition-all duration-150 cursor-pointer animate-bounce hover:animate-none"
+            style={{ animationDuration: '2s' }}
           >
             <ArrowDown className="w-6 h-6" />
           </button>
@@ -113,6 +120,11 @@ const Hero = () => {
         @keyframes float {
           0%, 100% { transform: translateY(0) scale(1); }
           50% { transform: translateY(-20px) scale(1.1); }
+        }
+        @media (max-width: 768px) {
+          section {
+            background-image: none !important;
+          }
         }
       `}</style>
     </>
