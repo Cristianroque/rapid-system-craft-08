@@ -7,6 +7,7 @@ import ProjectManagement from '@/components/admin/ProjectManagement';
 import MessageManagement from '@/components/admin/MessageManagement';
 import AdminLogin from '@/components/admin/AdminLogin';
 import AdminDashboard from '@/components/admin/AdminDashboard';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const AdminDashboardPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,7 +31,7 @@ const AdminDashboardPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/10 to-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/10 to-background transition-colors duration-300">
       <div className="border-b bg-background/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -42,14 +43,17 @@ const AdminDashboardPage = () => {
                 Gerencie projetos, mensagens e conteúdo do site
               </p>
             </div>
-            <Button 
-              variant="outline" 
-              onClick={handleLogout}
-              className="gap-2"
-            >
-              <LogOut className="w-4 h-4" />
-              Sair
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Button 
+                variant="outline" 
+                onClick={handleLogout}
+                className="gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -76,7 +80,7 @@ const AdminDashboardPage = () => {
           </TabsContent>
 
           <TabsContent value="projects">
-            <div className="bg-card rounded-lg border p-6">
+            <div className="bg-card rounded-lg border p-6 transition-colors duration-300">
               <ProjectManagement />
             </div>
           </TabsContent>

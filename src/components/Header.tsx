@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import ContactModal from '@/components/ContactModal';
+import ThemeToggle from '@/components/ThemeToggle';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
@@ -47,7 +48,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border transition-all duration-300">
         <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="text-xl md:text-2xl font-bold text-gradient">
@@ -75,26 +76,32 @@ const Header = () => {
                   </button>
                 </>
               )}
-              <Button onClick={handleContactClick} className="gradient-primary text-white px-4 lg:px-6">
-                Contato
-              </Button>
+              <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <Button onClick={handleContactClick} className="gradient-primary text-white px-4 lg:px-6">
+                  Contato
+                </Button>
+              </div>
             </nav>
 
-            <button 
-              className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </button>
+            <div className="md:hidden flex items-center gap-2">
+              <ThemeToggle />
+              <button 
+                className="p-2 rounded-lg hover:bg-muted transition-colors"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
+            <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-lg transition-all duration-300">
               <nav className="container mx-auto px-4 py-6 space-y-4">
                 {isProjectDetail || isProjectsPage ? (
                   <button 
