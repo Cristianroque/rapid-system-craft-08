@@ -21,7 +21,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentEmojiIndex((prevIndex) => (prevIndex + 1) % techEmojis.length);
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -46,24 +46,19 @@ const Hero = () => {
 
   return (
     <>
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Background Image with 70% Opacity */}
-        <div className="absolute inset-0 -z-10">
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-70 transition-all duration-700 ease-in-out"
-            style={{
-              backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`
-            }}
-          />
-          
-          {/* Gradient overlay that fades to transparent at bottom */}
-          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-transparent"></div>
-          
-          {/* Bottom fade transition to normal background */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
-        </div>
+      <section 
+        className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`
+        }}
+      >
+        {/* Background overlay with 70% opacity */}
+        <div className="absolute inset-0 bg-background/30 z-0"></div>
+        
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-background/30 z-10"></div>
 
-        <div className="container mx-auto px-4 py-16 md:py-20 text-center relative z-10">
+        <div className="container mx-auto px-4 py-16 md:py-20 text-center relative z-20">
           <div className={`max-w-4xl mx-auto transition-all duration-1200 ${
             isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
           }`}>
@@ -72,7 +67,16 @@ const Hero = () => {
               <span className="text-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 impressionam
               </span>{' '}
-              <span className="inline-block w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-2xl md:text-3xl lg:text-4xl transition-all duration-500 ease-out opacity-90 align-baseline">
+              <span 
+                className="inline-block transition-all duration-500 ease-out opacity-90 align-baseline"
+                style={{ 
+                  width: '0.8em', 
+                  height: '0.8em', 
+                  fontSize: '0.6em',
+                  verticalAlign: 'baseline',
+                  lineHeight: '1'
+                }}
+              >
                 {techEmojis[currentEmojiIndex]}
               </span>
             </h1>
@@ -96,7 +100,7 @@ const Hero = () => {
         </div>
 
         {/* Scroll down arrow */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
           <button
             onClick={scrollToNext}
             className="text-muted-foreground hover:text-primary transition-all duration-300 cursor-pointer"
