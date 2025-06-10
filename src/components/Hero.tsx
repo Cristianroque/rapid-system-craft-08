@@ -68,30 +68,14 @@ const Hero = () => {
               isVisible ? 'animate-fade-in' : 'opacity-0 translate-y-5'
             }`}>
               <Button 
-                onClick={handleContactClick}
+                onClick={scrollToPortfolio}
                 size="lg" 
                 className="w-full sm:w-auto gradient-primary text-white px-10 py-4 text-lg hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                Conheça agora!
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="w-full sm:w-auto px-10 py-4 text-lg border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
-                onClick={scrollToPortfolio}
               >
                 Ver projetos
               </Button>
             </div>
           </div>
-        </div>
-
-        {/* Pagination dots */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          <div className="w-3 h-3 rounded-full bg-muted-foreground/30"></div>
-          <div className="w-3 h-3 rounded-full bg-muted-foreground/30"></div>
-          <div className="w-3 h-3 rounded-full bg-primary"></div>
         </div>
         
         {/* Floating animation elements */}
