@@ -7,7 +7,7 @@ const Footer = () => {
 
   return (
     <footer className={`py-12 transition-colors duration-300 ${
-      theme === 'dark' ? 'bg-muted text-muted-foreground' : 'bg-foreground text-background'
+      theme === 'dark' ? 'bg-muted/20 text-muted-foreground' : 'bg-muted/30 text-foreground'
     }`}>
       <div className="container mx-auto px-4">
         <div className="text-center">
@@ -15,12 +15,12 @@ const Footer = () => {
             DevStudio
           </div>
           <p className={`mb-6 max-w-2xl mx-auto ${
-            theme === 'dark' ? 'text-muted-foreground/80' : 'text-background/80'
+            theme === 'dark' ? 'text-muted-foreground/80' : 'text-muted-foreground'
           }`}>
             Transformando ideias em soluções digitais que impressionam e fazem a diferença no seu negócio.
           </p>
           <div className={`text-sm ${
-            theme === 'dark' ? 'text-muted-foreground/60' : 'text-background/60'
+            theme === 'dark' ? 'text-muted-foreground/60' : 'text-muted-foreground/70'
           }`}>
             © {currentYear} DevStudio. Todos os direitos reservados.
           </div>

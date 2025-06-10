@@ -21,7 +21,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentEmojiIndex((prevIndex) => (prevIndex + 1) % techEmojis.length);
-    }, 3000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -77,7 +77,7 @@ const Hero = () => {
               <span className="text-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 impressionam
               </span>{' '}
-              <span className="inline-block text-2xl md:text-3xl lg:text-4xl transition-all duration-1000 ease-out opacity-90">
+              <span className="inline-block w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-2xl md:text-3xl lg:text-4xl transition-all duration-500 ease-out opacity-90 align-baseline">
                 {techEmojis[currentEmojiIndex]}
               </span>
             </h1>
