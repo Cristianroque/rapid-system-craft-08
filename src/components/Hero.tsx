@@ -56,13 +56,13 @@ const Hero = () => {
         }}
       >
         {/* Dark overlay for better text visibility - only on desktop */}
-        <div className="absolute inset-0 bg-black/60 z-0 hidden md:block"></div>
+        <div className="absolute inset-0 bg-black/70 z-0 hidden md:block"></div>
 
         <div className="container mx-auto px-4 py-16 md:py-20 text-center relative z-20">
           <div className={`max-w-4xl mx-auto transition-all duration-1200 ${
             isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
           }`}>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-foreground md:text-white">
               Soluções digitais que{' '}
               <span className="text-gradient bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 impressionam
@@ -81,7 +81,7 @@ const Hero = () => {
               </span>
             </h1>
             
-            <p className="text-lg md:text-xl lg:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground md:text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
               Portfólio de projetos que transformaram ideias em sistemas ágeis, modernos e funcionais.
             </p>
             
@@ -103,8 +103,8 @@ const Hero = () => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
           <button
             onClick={scrollToNext}
-            className="text-white/80 hover:text-primary transition-all duration-150 cursor-pointer animate-bounce hover:animate-none"
-            style={{ animationDuration: '4s' }}
+            className="text-foreground/80 md:text-white/80 hover:text-primary transition-all duration-150 cursor-pointer animate-bounce hover:animate-none"
+            style={{ animationDuration: '9s' }}
           >
             <ArrowDown className="w-6 h-6" />
           </button>

@@ -57,6 +57,21 @@ const Header = () => {
   const isProjectsPage = location.pathname === '/projetos';
   const isHomePage = location.pathname === '/';
 
+  // Determine text color based on page and scroll state
+  const getTextColor = () => {
+    if (isHomePage && !isScrolled) {
+      return 'text-white';
+    }
+    return 'text-foreground';
+  };
+
+  const getHoverTextColor = () => {
+    if (isHomePage && !isScrolled) {
+      return 'hover:text-primary';
+    }
+    return 'hover:text-primary';
+  };
+
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -66,27 +81,27 @@ const Header = () => {
       }`}>
         <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="text-xl md:text-2xl font-bold text-gradient">
+            <Link to="/" className={`text-xl md:text-2xl font-bold text-gradient ${getTextColor()}`}>
               DevStudio
             </Link>
             
             <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
               {isProjectDetail || isProjectsPage ? (
-                <button onClick={handleBackClick} className="text-foreground hover:text-primary transition-colors">
+                <button onClick={handleBackClick} className={`${getTextColor()} ${getHoverTextColor()} transition-colors`}>
                   ← Voltar
                 </button>
               ) : (
                 <>
-                  <button onClick={() => scrollToSection('sobre')} className="text-foreground hover:text-primary transition-colors">
+                  <button onClick={() => scrollToSection('sobre')} className={`${getTextColor()} ${getHoverTextColor()} transition-colors`}>
                     Sobre
                   </button>
-                  <button onClick={() => scrollToSection('servicos')} className="text-foreground hover:text-primary transition-colors">
+                  <button onClick={() => scrollToSection('servicos')} className={`${getTextColor()} ${getHoverTextColor()} transition-colors`}>
                     Serviços
                   </button>
-                  <button onClick={handlePortfolioClick} className="text-foreground hover:text-primary transition-colors">
+                  <button onClick={handlePortfolioClick} className={`${getTextColor()} ${getHoverTextColor()} transition-colors`}>
                     Portfólio
                   </button>
-                  <button onClick={() => scrollToSection('depoimentos')} className="text-foreground hover:text-primary transition-colors">
+                  <button onClick={() => scrollToSection('depoimentos')} className={`${getTextColor()} ${getHoverTextColor()} transition-colors`}>
                     Depoimentos
                   </button>
                 </>
@@ -106,9 +121,9 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? (
-                  <X className="w-6 h-6" />
+                  <X className={`w-6 h-6 ${getTextColor()}`} />
                 ) : (
-                  <Menu className="w-6 h-6" />
+                  <Menu className={`w-6 h-6 ${getTextColor()}`} />
                 )}
               </button>
             </div>
