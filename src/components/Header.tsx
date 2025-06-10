@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import ContactModal from '@/components/ContactModal';
 import ThemeToggle from '@/components/ThemeToggle';
+import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,7 +25,7 @@ const Header = () => {
       window.location.href = `/#${sectionId}`;
       return;
     }
-    
+
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -89,17 +89,20 @@ const Header = () => {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || !isHomePage 
-          ? 'bg-background/95 backdrop-blur-md border-b border-border' 
-          : 'bg-transparent'
-      }`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || !isHomePage
+        ? 'bg-background/95 backdrop-blur-md border-b border-border'
+        : 'bg-transparent'
+        }`}>
         <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
-            <button onClick={handleLogoClick} className={`text-xl md:text-2xl font-bold text-gradient ${getTextColor()}`}>
-              DevStudio
+            <button onClick={handleLogoClick} className="flex items-center">
+              <img
+                src="https://i.ibb.co/QF0y4TgN/logodevstudio.png"
+                alt="DevStudio Logo"
+                className="h-8 md:h-10"
+              />
             </button>
-            
+
             <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
               {isProjectDetail || isProjectsPage ? (
                 <button onClick={handleBackClick} className={`${getTextColor()} ${getHoverTextColor()} transition-colors`}>
@@ -131,7 +134,7 @@ const Header = () => {
 
             <div className="md:hidden flex items-center gap-2">
               <ThemeToggle />
-              <button 
+              <button
                 className="p-2 rounded-lg hover:bg-muted transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
@@ -149,34 +152,34 @@ const Header = () => {
             <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border shadow-lg transition-all duration-300">
               <nav className="container mx-auto px-4 py-6 space-y-4">
                 {isProjectDetail || isProjectsPage ? (
-                  <button 
-                    onClick={handleBackClick} 
+                  <button
+                    onClick={handleBackClick}
                     className="flex items-center gap-2 text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                   >
                     ← Voltar
                   </button>
                 ) : (
                   <>
-                    <button 
-                      onClick={() => scrollToSection('sobre')} 
+                    <button
+                      onClick={() => scrollToSection('sobre')}
                       className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Sobre
                     </button>
-                    <button 
-                      onClick={() => scrollToSection('servicos')} 
+                    <button
+                      onClick={() => scrollToSection('servicos')}
                       className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Serviços
                     </button>
-                    <button 
-                      onClick={handlePortfolioClick} 
+                    <button
+                      onClick={handlePortfolioClick}
                       className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Portfólio
                     </button>
-                    <button 
-                      onClick={() => scrollToSection('depoimentos')} 
+                    <button
+                      onClick={() => scrollToSection('depoimentos')}
                       className="block text-foreground hover:text-primary transition-colors w-full text-left py-3 px-4 rounded-lg hover:bg-muted/50"
                     >
                       Depoimentos
@@ -184,8 +187,8 @@ const Header = () => {
                   </>
                 )}
                 <div className="pt-2">
-                  <Button 
-                    onClick={handleContactClick} 
+                  <Button
+                    onClick={handleContactClick}
                     className="gradient-primary text-white w-full py-3"
                   >
                     Entrar em Contato
@@ -197,9 +200,9 @@ const Header = () => {
         </div>
       </header>
 
-      <ContactModal 
-        isOpen={isContactModalOpen} 
-        onClose={() => setIsContactModalOpen(false)} 
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
       />
     </>
   );

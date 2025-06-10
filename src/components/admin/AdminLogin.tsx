@@ -1,10 +1,10 @@
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock, User } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface AdminLoginProps {
@@ -28,7 +28,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
     } else {
       toast.error('Email ou senha incorretos');
     }
-    
+
     setIsLoading(false);
   };
 
@@ -36,8 +36,12 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-r from-primary to-primary/60 rounded-full flex items-center justify-center">
-            <Lock className="w-8 h-8 text-white" />
+          <div className="mx-auto w-16 h-16 flex items-center justify-center">
+            <img
+              src="https://i.ibb.co/0y7K7sJj/logo.png"
+              alt="Ícone"
+              className="w-12 h-12"
+            />
           </div>
           <CardTitle className="text-2xl">Painel Administrativo</CardTitle>
           <p className="text-muted-foreground">
@@ -76,8 +80,8 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
                 />
               </div>
             </div>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full gradient-primary text-white"
               disabled={isLoading}
             >
