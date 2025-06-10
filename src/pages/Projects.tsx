@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -101,7 +100,7 @@ const Projects = () => {
 
           {/* Grid de Projetos - Cards com altura uniforme */}
           {!loading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12 max-w-5xl mx-auto">
               {filteredProjects.map((project, index) => (
                 <Link key={project.id} to={`/projetos/${project.id}`} className="block h-full">
                   <Card 

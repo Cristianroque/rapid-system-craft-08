@@ -47,6 +47,7 @@ const Hero = () => {
   return (
     <>
       <section 
+        id="hero"
         className="min-h-screen flex items-center justify-center relative overflow-hidden bg-cover bg-center bg-no-repeat md:bg-cover bg-background"
         style={{
           backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`,

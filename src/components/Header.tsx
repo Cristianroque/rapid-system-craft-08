@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -32,6 +31,14 @@ const Header = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMenuOpen(false);
+  };
+
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      scrollToSection('hero');
+    } else {
+      window.location.href = '/';
+    }
   };
 
   const handlePortfolioClick = () => {
@@ -89,9 +96,9 @@ const Header = () => {
       }`}>
         <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className={`text-xl md:text-2xl font-bold text-gradient ${getTextColor()}`}>
+            <button onClick={handleLogoClick} className={`text-xl md:text-2xl font-bold text-gradient ${getTextColor()}`}>
               DevStudio
-            </Link>
+            </button>
             
             <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
               {isProjectDetail || isProjectsPage ? (
