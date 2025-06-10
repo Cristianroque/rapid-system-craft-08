@@ -52,12 +52,6 @@ const Hero = () => {
           backgroundImage: `url('/lovable-uploads/a4cad51c-077a-45f3-b879-64176e122b08.png')`
         }}
       >
-        {/* Background overlay with 70% opacity */}
-        <div className="absolute inset-0 bg-background/30 z-0"></div>
-        
-        {/* Gradient overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-background/30 z-10"></div>
-
         <div className="container mx-auto px-4 py-16 md:py-20 text-center relative z-20">
           <div className={`max-w-4xl mx-auto transition-all duration-1200 ${
             isVisible ? 'animate-fade-in-up' : 'opacity-0 translate-y-10'
@@ -103,7 +97,7 @@ const Hero = () => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
           <button
             onClick={scrollToNext}
-            className="text-muted-foreground hover:text-primary transition-all duration-300 cursor-pointer"
+            className="text-muted-foreground hover:text-primary transition-all duration-200 cursor-pointer"
           >
             <ArrowDown className="w-6 h-6" />
           </button>
