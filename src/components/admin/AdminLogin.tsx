@@ -21,7 +21,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
     setIsLoading(true);
 
     // Simulação de login (em produção, usar autenticação real)
-    if (email === 'admin@devstudio.com' && password === 'admin123') {
+    if (email === 'admin@devstudio.com' && password === 'devstudio@123') {
       localStorage.setItem('adminAuth', 'true');
       toast.success('Login realizado com sucesso!');
       onLogin();
