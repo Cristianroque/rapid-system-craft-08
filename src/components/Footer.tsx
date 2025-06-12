@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="text-center">
           <div className="text-2xl font-bold mb-4">
-            DevStudio
+            SQT-Studio
           </div>
           <p className={`mb-6 max-w-2xl mx-auto ${
             theme === 'dark' ? 'text-muted-foreground/80' : 'text-muted-foreground'
@@ -22,7 +22,7 @@ const Footer = () => {
           <div className={`text-sm ${
             theme === 'dark' ? 'text-muted-foreground/60' : 'text-muted-foreground/70'
           }`}>
-            © {currentYear} DevStudio. Todos os direitos reservados.
+            © {currentYear} SQT-Studio. Todos os direitos reservados.
           </div>
         </div>
       </div>

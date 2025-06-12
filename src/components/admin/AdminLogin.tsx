@@ -38,7 +38,7 @@ const AdminLogin = ({ onLogin }: AdminLoginProps) => {
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto w-16 h-16 flex items-center justify-center">
             <img
-              src="https://i.ibb.co/0y7K7sJj/logo.png"
+              src="https://i.ibb.co/ccGkbQZC/avicon.png"
               alt="Ícone"
               className="w-12 h-12"
             />

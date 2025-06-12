@@ -97,8 +97,8 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <button onClick={handleLogoClick} className="flex items-center">
               <img
-                src="https://i.ibb.co/QF0y4TgN/logodevstudio.png"
-                alt="DevStudio Logo"
+                src="https://i.ibb.co/sd8gjWj6/logosqtstudio.png"
+                alt="SqtStudio Logo"
                 className="h-8 md:h-10"
               />
             </button>
